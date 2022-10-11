@@ -242,6 +242,7 @@ type User {
   "productId": "nike123",
   "sizeQuantityId": "l123",
   "userId": "user123",
+  "isCheckout": false,
   "createdAt": "",
   "updatedAt": "",
 }
@@ -253,6 +254,7 @@ type User {
   productId: String!
   sizeQuantityId: String!
   userId: String!
+  isCheckout: Boolean!
   createdAt: String!
   updatedAt: String!
 }
