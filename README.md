@@ -1,18 +1,15 @@
-# Group Project Title
+# Fitnest
 
-Project description with clear goal.
-
-![Screenshot 1]()
-
-![Screenshot 2]()
+E-commerce for fitness and sports equipment.
 
 ## Links
 
 ### Production
 
-- https://project.vercel.app
-- https://project.netlify.app
-- https://project.example.com
+- https://fitnest.agnuramdan.com
+- https://fitnest.mohammadfarizan.com
+- https://fitnest.fikrialwan.com
+- https://fitnest.nurikhwan.com
 
 ### Local
 
@@ -27,20 +24,23 @@ Project description with clear goal.
 
 ## Main Features
 
-- First feature
-- Second feature
-- Third feature
-- Fourth feature
-- Fifth feature
+- Products showcase
+- Show products by brand
+- Filter products by category
+- Search products
+- Add to cart
+- Checkout cart
+- Authorization user
+- Review product
 
 ## Team Members
 
-| Name      | Role              | GitHub URL                                 |
-| --------- | ----------------- | ------------------------------------------ |
-| Albatross | Lead, Frontend    | [@albatross](https://github.com/albatross) |
-| Bandicoot | Design, Docs      | [@bandicoot](https://github.com/bandicoot) |
-| Chipmunk  | Frontend, Design  | [@chipmunk](https://github.com/chipmunk)   |
-| Dolphin   | Frontend, Backend | [@dolphin](https://github.com/dolphin)     |
+| Name                 | Role              | GitHub URL                                             |
+| -------------------- | ----------------- | ------------------------------------------------------ |
+| Fikri Alwan R.       | Lead, Frontend    | [@fikrialwan](https://github.com/fikrialwan)           |
+| Nur Ikhwan           | Frontend          | [@ikhwanmachmud](https://github.com/ikhwanmachmud)     |
+| Muhamad Agung Nur R. | Frontend          | [@agnuramdan](https://github.com/agnuramdan)           |
+| Mohammad Farizan     | Frontend          | [@mohammadfarizan](https://github.com/mohammadfarizan) |
 
 ## Tech Stack
 
@@ -104,46 +104,108 @@ Details on deployment using Vercel or Netlify here.
 
 ## Data Model
 
-### Resources
+### Brand
 
 ```json
 {
   "id": "abc123",
-  "title": "Resource name",
-  "description": "Some details about\nthe resource",
-  "isAvailable": true,
-  "quantity": 100,
+  "name": "Adidas",
+  "description": "Some details about\nthe brand",
+  "imageUrl": "https://fitnest/images/filename.jpeg",
   "createdAt": "",
   "updatedAt": ""
 }
 ```
 
 ```graphql
-type Resource {
+type Brand {
   id: String!
   title: String!
   description: String
-  isAvailable: Boolean!
-  quantity: Number!
-  tags: [Tag!]!
+  imageUrl: String!
+  product: [Product!]!
   createdAt: String!
   updatedAt: String!
 }
 ```
 
-### Tags
+### Product
 
 ```json
 {
   "id": "abc123",
-  "name": "Tag name"
+  "name": "Nike Tiempo",
+  "descripton": "Some details about\nthe product",
+  "imageUrl": "https://fitnest/imags/filename.jpeg",
+  "price": 1500000,
+  "createdAt": "",
+  "updatedAt": "",
+
 }
 ```
 
 ```graphql
-type Tag {
+type Product {
   id: String!
   name: String!
+  description: String!
+  imageUrl: String!
+  price: Number!
+  sizeQuantity: [sizeQuantity!]!
+  review: [review!]!
+  createdAt: String!
+  updatedAt: String!
+}
+```
+
+### SizeQuantity
+```json
+{
+  "id": "abc123",
+  "productId": "nike123",
+  "size": "40",
+  "quantity": 50,
+  "createdAt": "",
+  "updatedAt": "",
+
+}
+```
+
+```graphql
+type SizeQuantity {
+  id: String!
+  productId: String!
+  size: String!
+  quantity: Number!
+  review: [review!]!
+  createdAt: String!
+  updatedAt: String!
+}
+```
+
+### Review
+```json
+{
+  "id": "abc123",
+  "productId": "nike123",
+  "userId": "user123",
+  "rating": 4,
+  "message": "Message about product",
+  "createdAt": "",
+  "updatedAt": "",
+
+}
+```
+
+```graphql
+type Review {
+  id: String!
+  productId: String!
+  userId: String!
+  rating: Number!
+  message: String!
+  createdAt: String!
+  updatedAt: String!
 }
 ```
 
@@ -153,7 +215,10 @@ type Tag {
 {
   "id": "abc123",
   "name": "First Last",
-  "email": "firstlast@user.com"
+  "email": "firstlast@user.com",
+  "password": "sadw1231ceasdav4qwq",
+  "createdAt": "",
+  "updatedAt": "",
 }
 ```
 
@@ -162,6 +227,33 @@ type User {
   id: String!
   name: String!
   email: String!
+  password: String!
+  createdAt: String!
+  updatedAt: String!
+}
+```
+
+### Cart
+
+```json
+{
+  "id": "abc123",
+  "productId": "nike123",
+  "sizeQuantityId": "l123",
+  "userId": "user123",
+  "createdAt": "",
+  "updatedAt": "",
+}
+```
+
+```graphql
+type User {
+  id: String!
+  productId: String!
+  sizeQuantityId: String!
+  userId: String!
+  createdAt: String!
+  updatedAt: String!
 }
 ```
 
