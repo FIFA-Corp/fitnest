@@ -1,0 +1,16 @@
+!.eslintrc.js
+.cache
+.tmp
+.vscode
+**/__tests__/fixtures
+**/build/
+**/node_modules/
+**/tests/__snapshots/
+api/
+build
+coverage
+LICENSE
+node_modules/
+public/
+server.js
+styles/
