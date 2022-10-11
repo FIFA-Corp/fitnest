@@ -28,6 +28,7 @@ E-commerce for fitness and sports equipment.
 - Show products by brand
 - Filter products by category
 - Search products
+- Detail product
 - Add to cart
 - Checkout cart
 - Authorization user
