@@ -135,6 +135,7 @@ type Brand {
 ```json
 {
   "id": "abc123",
+  "brandId": "nike123",
   "name": "Nike Tiempo",
   "descripton": "Some details about\nthe product",
   "imageUrl": "https://fitnest/imags/filename.jpeg",
@@ -148,6 +149,7 @@ type Brand {
 ```graphql
 type Product {
   id: String!
+  brandId: String!
   name: String!
   description: String!
   imageUrl: String!
