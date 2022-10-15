@@ -8,6 +8,7 @@ module.exports = {
       },
       colors: {
         'custom-blue-primary': '#23B6D1',
+        'custom-blue-secondary': '#263BF1',
         'custom-black-secondary': '#122C34',
         'custom-black-primary': '#000000',
         'custom-blush-pink': '#D8B8B8',
