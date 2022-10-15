@@ -6,21 +6,18 @@ E-commerce for fitness and sports equipment.
 
 ### Production
 
-- https://fitnest.agnuramdan.com
-- https://fitnest.mohammadfarizan.com
-- https://fitnest.fikrialwan.com
-- https://fitnest.nurikhwan.com
+- https://fifa-fitnest.agnuramdan.com
+- https://fifa-fitnest.mohammadfarizan.com
+- https://fifa-fitnest.fikrialwan.com
+- https://fifa-fitnest.nurikhwan.com
 
 ### Local
 
-- http://localhost:3000
 - http://localhost:5173
 
 ### Design
 
-- Figma Mockup: https://figma.com
-- Figma Prototype: https://figma.com
-- Whimsical Flowchart: https://whimsical.com
+- Figma Mockup: https://www.figma.com/file/Xm2NJzDAYjBLvUPuK8II77/Fitnest?node-id=0%3A1
 
 ## Main Features
 
@@ -57,11 +54,11 @@ E-commerce for fitness and sports equipment.
   - Vite v3
     - React Router v6
 - Data Fetching
-  - GraphQL: `urql`
+  - REST API: `useSWR`
 - Misc
   - Prettier
   - ESLint
-  - `concurrently`
+  - React Router DOM
 
 ## Development
 
@@ -91,7 +88,22 @@ npm start
 
 ## Deployment
 
-Details on deployment using Vercel or Netlify here.
+This project is deployed on Netlify, you can check the website on the about section or [clik here](https://fifa-fitnest.netlify.app).
+
+## REST API Endpoints
+
+URL: `https://api.kontenbase.com/query/api/v1/19877131-8b2f-4e7a-91fc-db45066dea23`
+
+| HTTP   | Endpoint              | Description      |
+| ------ | --------------------- | ---------------- |
+| GET    | `/brands?$lookup=*`   | Get all brands   |
+| POST   | `/brands/`            | Create brand     |
+| PATCH  | `/brands/:id`         | Patch brand      |
+| DELETE | `/brands/:id`         | Delete brand     |
+| GET    | `/products?$lookup=*` | Get all products |
+| POST   | `/products/`          | Create product   |
+| PATCH  | `/products/:id`       | Patch product    |
+| DELETE | `/products/:id`       | Delete product   |
 
 ## Data Model
 
@@ -131,27 +143,12 @@ type Brand {
   "imageUrl": "https://fitnest/imags/filename.jpeg",
   "price": 1500000,
   "createdAt": "",
-  "updatedAt": "",
-
-}
-```
-
-```graphql
-type Product {
-  id: String!
-  brandId: String!
-  name: String!
-  description: String!
-  imageUrl: String!
-  price: Number!
-  sizeQuantity: [sizeQuantity!]!
-  review: [review!]!
-  createdAt: String!
-  updatedAt: String!
+  "updatedAt": ""
 }
 ```
 
 ### SizeQuantity
+
 ```json
 {
   "id": "abc123",
@@ -159,24 +156,12 @@ type Product {
   "size": "40",
   "quantity": 50,
   "createdAt": "",
-  "updatedAt": "",
-
-}
-```
-
-```graphql
-type SizeQuantity {
-  id: String!
-  productId: String!
-  size: String!
-  quantity: Number!
-  review: [review!]!
-  createdAt: String!
-  updatedAt: String!
+  "updatedAt": ""
 }
 ```
 
 ### Review
+
 ```json
 {
   "id": "abc123",
@@ -185,20 +170,7 @@ type SizeQuantity {
   "rating": 4,
   "message": "Message about product",
   "createdAt": "",
-  "updatedAt": "",
-
-}
-```
-
-```graphql
-type Review {
-  id: String!
-  productId: String!
-  userId: String!
-  rating: Number!
-  message: String!
-  createdAt: String!
-  updatedAt: String!
+  "updatedAt": ""
 }
 ```
 
@@ -211,18 +183,7 @@ type Review {
   "email": "firstlast@user.com",
   "password": "sadw1231ceasdav4qwq",
   "createdAt": "",
-  "updatedAt": "",
-}
-```
-
-```graphql
-type User {
-  id: String!
-  name: String!
-  email: String!
-  password: String!
-  createdAt: String!
-  updatedAt: String!
+  "updatedAt": ""
 }
 ```
 
@@ -236,19 +197,6 @@ type User {
   "userId": "user123",
   "isCheckout": false,
   "createdAt": "",
-  "updatedAt": "",
+  "updatedAt": ""
 }
 ```
-
-```graphql
-type User {
-  id: String!
-  productId: String!
-  sizeQuantityId: String!
-  userId: String!
-  isCheckout: Boolean!
-  createdAt: String!
-  updatedAt: String!
-}
-```
-
