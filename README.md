@@ -88,7 +88,7 @@ npm start
 
 ## Deployment
 
-This project is deployed on Netlify, you can check the website on the about section or [clik here](https://fifa-fitnest.netlify.app).
+This project is deployed on Netlify, you can check the website on the about section or [click here](https://fifa-fitnest.netlify.app).
 
 ## REST API Endpoints
 
