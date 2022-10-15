@@ -20,7 +20,7 @@ export default function CategoryContainer() {
 
   return (
     <div className="w-full py-3 px-11 border-[1px] border-custom-blush-pink">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-3">
         <h2 className="font-normal text-2xl text-custom-black-primary">
           Kategori Pilihan
         </h2>
