@@ -120,18 +120,6 @@ URL: `https://api.kontenbase.com/query/api/v1/19877131-8b2f-4e7a-91fc-db45066dea
 }
 ```
 
-```graphql
-type Brand {
-  id: String!
-  title: String!
-  description: String
-  imageUrl: String!
-  product: [Product!]!
-  createdAt: String!
-  updatedAt: String!
-}
-```
-
 ### Product
 
 ```json
