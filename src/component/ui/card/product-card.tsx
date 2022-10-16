@@ -11,18 +11,18 @@ export const ProductCard = ({ id, imageUrl, name, price }: ProductCardType) => {
   return (
     <Link
       to={`/products/${id}`}
-      className="max-w-sm w-full rounded-2xl flex flex-col border-[1px] border-custom-blush-pink overflow-hidden"
+      className="max-w-sm w-full rounded-2xl flex flex-col drop-shadow-lg overflow-hidden"
     >
       <img
         src={imageUrl}
         alt={`image ${name}`}
         className="w-full aspect-video object-contain object-center"
       />
-      <div className="p-3 flex flex-col justify-between gap-6 bg-custom-yellow-secondary">
-        <h3 className="font-normal text-2xl line-clamp-2">{name}</h3>
+      <div className="p-3 flex flex-col justify-between gap-6 bg-neutral-100">
+        <h3 className="font-bold text-md line-clamp-2">{name}</h3>
         <p className="mb-2">
-          <span className="block font-bold text-2xl ">{`IDR ${price}`}</span>
-          <span className="font-normal text-base">100 terjual</span>
+          <span className="flex flex-col font-medium text-sm ">{`IDR ${price}`}</span>
+          <span className="text-slate-600 font-light text-xs">100 terjual</span>
         </p>
       </div>
     </Link>
