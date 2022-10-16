@@ -8,6 +8,18 @@ export const Home = () => {
       <CategoryContainer />
       <ProductContainer />
       <BrandContainer />
+      <div
+        className="cursor-pointer text-center bg-[#FFFF00] py-2"
+        onClick={() => {
+          document.documentElement.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth",
+          });
+        }}
+      >
+        Kembali Keatas
+      </div>
     </div>
   );
 };
