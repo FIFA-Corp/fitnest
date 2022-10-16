@@ -13,9 +13,13 @@ export const ProductIdRoute = () => {
   if (!product) return <div>Loading Product...</div>;
 
   return (
-    <div className="flex gap-40 justify-center mx-auto">
+    <div className="flex gap-40 justify-center mx-auto my-10">
       <div>
-        <img src={product.image[0].url} alt={product.name} />
+        <img
+          className="w-[400px] h-auto"
+          src={product.image[0].url}
+          alt={product.name}
+        />
       </div>
       <div className="flex flex-col gap-8 max-w-lg">
         <h1 className="text-xl font-inter font-semibold">{product.name}</h1>
