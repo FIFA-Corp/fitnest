@@ -8,7 +8,7 @@ export const BrandCategoryCard = ({
   name,
 }: BrandCategoryCardType) => {
   return (
-    <div className="max-w-[240px] w-full flex flex-col p-2 border-[1px] border-custom-blush-pink items-center gap-3">
+    <div className="max-w-[240px] w-full flex flex-col p-2 shadow rounded-2xl items-center gap-3">
       <img
         src={imageUrl}
         alt={`image ${name}`}

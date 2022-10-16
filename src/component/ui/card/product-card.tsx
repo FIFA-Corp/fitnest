@@ -11,7 +11,7 @@ export const ProductCard = ({ id, imageUrl, name, price }: ProductCardType) => {
   return (
     <Link
       to={`/products/${id}`}
-      className="max-w-sm w-full rounded-2xl flex flex-col drop-shadow-lg overflow-hidden"
+      className="max-w-sm w-full flex flex-col drop-shadow-lg rounded-2xl  overflow-hidden"
     >
       <img
         src={imageUrl}

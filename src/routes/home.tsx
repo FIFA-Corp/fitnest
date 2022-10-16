@@ -4,7 +4,7 @@ import ProductContainer from "../component/product-container";
 
 export const Home = () => {
   return (
-    <div>
+    <div className="flex flex-col gap-10">
       <CategoryContainer />
       <ProductContainer />
       <BrandContainer />
