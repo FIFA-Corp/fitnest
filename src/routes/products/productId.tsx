@@ -8,7 +8,6 @@ export const ProductIdRoute = () => {
     `${import.meta.env.VITE_BACKEND_API_URL}/products/${productId}?$lookup=*`,
     fetcher
   );
-  console.log(product);
 
   if (error) return <div>Failed To Load Product: {productId}</div>;
   if (!product) return <div>Loading Product...</div>;
