@@ -14,8 +14,11 @@ module.exports = {
         'custom-blush-pink': '#D8B8B8',
         'custom-white': '#FFFFFF',
         'custom-yellow': '#FFFF00',
+        'custom-yellow-secondary': '#FDE68A'
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/aspect-ratio'),],
 };
