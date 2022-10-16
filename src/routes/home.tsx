@@ -9,7 +9,7 @@ export const Home = () => {
       <ProductContainer />
       <BrandContainer />
       <div
-        className="cursor-pointer text-center bg-[#FFFF00] py-2"
+        className="cursor-pointer text-center bg-custom-yellow py-2"
         onClick={() => {
           document.documentElement.scrollTo({
             top: 0,

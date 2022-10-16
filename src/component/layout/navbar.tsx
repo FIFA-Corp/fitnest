@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
 export default function Navbar() {
   return (
-    <nav className="w-full bg-cyan-500 flex flex-wrap items-center justify-between">
+    <nav className="w-full bg-custom-blue-primary flex flex-wrap items-center justify-between">
       <Link to="/" className="">
         <img src={fitnestLogo}></img>
       </Link>
@@ -17,7 +17,7 @@ export default function Navbar() {
           px-2
           py-2.5
           bg-[#D8D1D1]
-          text-[#122C34]
+          text-custom-black-secondary
           font-medium
           text-xs
           rounded-l-lg
@@ -61,7 +61,7 @@ export default function Navbar() {
               aria-describedby="button-addon2"
             ></input>
             <button
-              className="btn px-6 py-2 bg-[#FFFF00] text-white font-medium text-xs leading-tight rounded-r-lg hover:bg-[#e6e600] flex items-center"
+              className="btn px-6 py-2 bg-custom-yellow text-white font-medium text-xs leading-tight rounded-r-lg hover:bg-[#e6e600] flex items-center"
               type="button"
               id="button-addon2"
             >
@@ -94,7 +94,7 @@ export default function Navbar() {
         </button>
         <button
           type="button"
-          className="inline-block px-6 py-2.5 bg-[#FFFF00] text-gray-700 font-medium text-xs leading-tight rounded shadow-md hover:bg-[#e6e600] hover:shadow-lg focus:bg-[#e6e600] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#e6e600] active:shadow-lg transition duration-150 ease-in-out"
+          className="inline-block px-6 py-2.5 bg-custom-yellow text-gray-700 font-medium text-xs leading-tight rounded shadow-md hover:bg-[#e6e600] hover:shadow-lg focus:bg-[#e6e600] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#e6e600] active:shadow-lg transition duration-150 ease-in-out"
         >
           Daftar
         </button>
