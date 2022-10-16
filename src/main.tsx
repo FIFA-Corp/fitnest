@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import "./index.css";
 import Layout from "./component/layout";
-import { Home, ProductId, Products } from "./routes";
+import { Home, ProductIdRoute, Products } from "./routes";
 import { FourOhFour } from "./routes/products/404";
 
 const router = createBrowserRouter([
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: "products/:productId",
-        element: <ProductId />,
+        element: <ProductIdRoute />,
       },
     ],
   },
