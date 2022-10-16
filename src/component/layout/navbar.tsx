@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
 export default function Navbar() {
   return (
     <nav className="w-full bg-cyan-500 flex flex-wrap items-center justify-between">
-      <div className="">
+      <Link to="/" className="">
         <img src={fitnestLogo}></img>
-      </div>
+      </Link>
 
       <div className="flex items-center">
         <div className="flex justify-center">
