@@ -5,7 +5,7 @@ import { ProductCard } from "./ui/card";
 
 export default function ProductContainer() {
   const { data: products, error } = useSWR(
-    `${import.meta.env.VITE_BACKEND_API_URL}/products?$lookup=*&$limit=6
+    `${import.meta.env.VITE_BACKEND_API_URL}/products?$lookup=*&$limit=4
   `,
     fetcher
   );
@@ -24,11 +24,14 @@ export default function ProductContainer() {
         <h2 className="font-normal text-2xl text-custom-black-primary">
           Product Pilihan
         </h2>
-        <Link to="/" className="text-custom-blue-secondary font-normal text-xl">
+        <Link
+          to="/products/"
+          className="text-custom-blue-secondary font-normal text-xl"
+        >
           Lihat Semua
         </Link>
       </div>
-      <div className="flex flex-wrap justify-between gap-7">
+      <div className="flex justify-between gap-7">
         {products.map(({ _id, image, name, price }: ProductType) => {
           return (
             <ProductCard
