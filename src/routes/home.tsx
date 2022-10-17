@@ -5,11 +5,11 @@ import ProductContainer from "../component/product-container";
 export const Home = () => {
   return (
     <div className="flex flex-col gap-10">
-      <CategoryContainer />
-      <ProductContainer />
       <BrandContainer />
+      <ProductContainer />
+      <CategoryContainer />
       <div
-        className="cursor-pointer text-center bg-custom-yellow py-2"
+        className="cursor-pointer bg-custom-yellow py-2 text-center"
         onClick={() => {
           document.documentElement.scrollTo({
             top: 0,
