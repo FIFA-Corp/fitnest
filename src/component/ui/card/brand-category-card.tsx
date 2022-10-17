@@ -8,13 +8,13 @@ export const BrandCategoryCard = ({
   name,
 }: BrandCategoryCardType) => {
   return (
-    <div className="max-w-[240px] w-full flex flex-col p-2 shadow rounded-2xl items-center gap-3">
+    <div className="flex w-full max-w-[240px] flex-col items-center gap-3 rounded-2xl p-2 shadow-lg">
       <img
         src={imageUrl}
         alt={`image ${name}`}
-        className="w-3/5 aspect-square object-contain object-center flex-grow"
+        className="aspect-square w-3/5 flex-grow object-contain object-center"
       />
-      <h3 className="font-normal text-2xl text-center">{name}</h3>
+      <h3 className="text-center text-2xl font-normal">{name}</h3>
     </div>
   );
 };
