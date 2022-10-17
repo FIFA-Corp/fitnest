@@ -20,11 +20,11 @@ export default function CategoryContainer() {
 
   return (
     <div className="w-full py-3 px-11">
-      <div className="flex justify-between items-center mb-3">
-        <h2 className="font-normal text-2xl text-custom-black-primary">
+      <div className="mb-3 flex items-center justify-between">
+        <h2 className="text-xl font-normal text-custom-black-primary">
           Kategori Pilihan
         </h2>
-        <Link to="/" className="text-custom-blue-secondary font-normal text-xl">
+        <Link to="/" className="text-xl font-normal text-custom-blue-secondary">
           Lihat Semua
         </Link>
       </div>

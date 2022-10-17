@@ -21,7 +21,7 @@ export const ProductCard = ({ id, imageUrl, name, price }: ProductCardType) => {
       <div className="flex flex-col justify-between gap-6 bg-neutral-100 p-3">
         <h3 className="text-md font-bold line-clamp-2">{name}</h3>
         <p className="mb-2">
-          <span className="flex flex-col text-sm font-medium ">
+          <span className="text-md flex flex-col font-medium ">
             {Intl.NumberFormat("id-ID", {
               style: "currency",
               currency: "IDR",
