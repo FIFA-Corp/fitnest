@@ -2,6 +2,7 @@ import { FaChevronDown, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { fetcher, showCartState, useSWR } from "../../libs";
+import { STORAGE_KEY } from "../../libs/local-storage";
 import { CategoryType } from "../../types";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
 
@@ -12,11 +13,18 @@ export default function Navbar() {
     fetcher
   );
 
-  if (error) {
+  const { data: carts, error: cartError } = useSWR(
+    `${
+      import.meta.env.VITE_BACKEND_API_URL
+    }/carts?$lookup=*&cartStorageId=${localStorage.getItem(STORAGE_KEY)}`,
+    fetcher
+  );
+
+  if (error || cartError) {
     throw new Error(error);
   }
 
-  if (!categories) {
+  if (!categories || !carts) {
     return <div></div>;
   }
 
@@ -76,6 +84,13 @@ export default function Navbar() {
               document.body.classList.add("overflow-y-hidden");
             }}
           />
+          {carts!.length > 0 && (
+            <div className="absolute bottom-2 ml-4 flex h-5 w-5 items-center justify-center rounded-full bg-custom-yellow">
+              <p className="mr-[1px] text-[9px] text-custom-black-primary">
+                {carts!.length > 99 ? "99" : carts!.length}
+              </p>
+            </div>
+          )}
         </div>
         <button
           type="button"
