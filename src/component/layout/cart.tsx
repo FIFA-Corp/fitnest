@@ -66,6 +66,8 @@ export default function Cart() {
                   imageUrl={product[0].image[0].url}
                   name={product[0].name}
                   price={product[0].price}
+                  size={sizeQuantity[0].size}
+                  quantity={quantity}
                 />
               );
             }

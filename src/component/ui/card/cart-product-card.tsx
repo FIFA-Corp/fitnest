@@ -6,6 +6,8 @@ interface CartProductCardProps {
   name: string;
   imageUrl: string;
   price: number;
+  size: string;
+  quantity: number;
 }
 
 export const CartProductCard = ({
@@ -13,6 +15,8 @@ export const CartProductCard = ({
   name,
   imageUrl,
   price,
+  size,
+  quantity,
 }: CartProductCardProps) => {
   const handleDelete = async () => {
     await deleteCart(cartId);
@@ -32,6 +36,10 @@ export const CartProductCard = ({
             onClick={handleDelete}
           />
           <h2 className="w-full text-lg font-normal line-clamp-3">{name}</h2>
+          <div className="mb-2 w-full">
+            <p>size: {size}</p>
+            <p>quantity: {quantity}</p>
+          </div>
         </div>
         <h3 className="mb-2 text-lg font-bold">
           {Intl.NumberFormat("id-ID", {
