@@ -42,7 +42,7 @@ export const ProductIdRoute = () => {
   return (
     <div className="mx-auto my-10 flex justify-center gap-40">
       <div>
-        <img className="h-auto w-[400px]" src={image[0].url} alt={name} />
+        <img className="h-auto w-[400px]" src={image[0]?.url} alt={name} />
       </div>
       <div className="flex max-w-lg flex-col gap-8">
         <h1 className="font-inter text-xl font-semibold">{name}</h1>

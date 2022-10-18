@@ -64,7 +64,7 @@ export default function Cart() {
                 <CartProductCard
                   key={index}
                   cartId={_id}
-                  imageUrl={product[0].image[0].url}
+                  imageUrl={product[0].image[0]?.url}
                   name={product[0].name}
                   price={product[0].price}
                   size={sizeQuantity[0].size}
