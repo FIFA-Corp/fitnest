@@ -1,12 +1,32 @@
 import { FaAngleLeft } from "react-icons/fa";
 import { CartProductCard } from "../ui/card";
+import { useRecoilState } from "recoil";
+import { showCartState } from "../../libs";
 
 export default function Cart() {
+  const [isCartShow, setShowCart] = useRecoilState(showCartState);
+
+  const cartHiddenHandle = () => {
+    setShowCart(false);
+    document.body.classList.remove("overflow-y-hidden");
+  };
+
   return (
-    <div className="fixed z-10 flex h-screen w-screen justify-end backdrop-blur-md">
-      <div className="flex h-full w-full max-w-xl flex-col bg-custom-white">
+    <div
+      className={`fixed z-10 h-screen w-screen justify-end backdrop-blur-md ${
+        isCartShow ? "flex" : "hidden"
+      }`}
+      onClick={cartHiddenHandle}
+    >
+      <div
+        className="flex h-full w-full max-w-xl flex-col bg-custom-white"
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="flex w-full items-center justify-between bg-custom-blue-primary py-3 px-6">
-          <button className="rounded-2xl bg-custom-yellow p-2">
+          <button
+            className="rounded-2xl bg-custom-yellow p-2"
+            onClick={cartHiddenHandle}
+          >
             <FaAngleLeft size={25} />
           </button>
           <h1 className="text-2xl font-semibold">Keranjang Saya</h1>
