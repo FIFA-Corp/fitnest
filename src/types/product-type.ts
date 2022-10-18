@@ -1,6 +1,7 @@
 import { BrandType } from "./brand-type";
 import { CategoryType } from "./category-type";
 import { ImageType } from "./image-type";
+import { SizeQuantityType } from "./size-quantity-type";
 
 export type ProductType = {
   _id: string;
@@ -10,6 +11,7 @@ export type ProductType = {
   image: ImageType[];
   name: string;
   price: number;
+  sizeQuantity: SizeQuantityType[];
   createdAt: string;
   updatedAt: string;
 };
