@@ -16,18 +16,35 @@ export const addToCart = async (
 
     const cartStorageId = localStorage.getItem(STORAGE_KEY);
 
-    const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_API_URL}/carts`,
-      {
-        isCheckout: 0,
-        productId: [productId],
-        sizeQuantityId: [sizeQuantityId],
-        quantity,
-        cartStorageId: [cartStorageId],
-      }
+    const cart = await axios.get(
+      `${
+        import.meta.env.VITE_BACKEND_API_URL
+      }/carts?$lookup=*&cartStorageId=${localStorage.getItem(
+        STORAGE_KEY
+      )}&productId=${productId}&sizeQuantityId=${sizeQuantityId}`
     );
 
-    console.log(response);
+    if (cart.data.length > 0) {
+      const cartId = cart.data[0]._id;
+      const response = await axios.patch(
+        `${import.meta.env.VITE_BACKEND_API_URL}/carts/${cartId}`,
+        {
+          quantity: cart.data[0].quantity + quantity,
+        }
+      );
+      console.log(response);
+    } else {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_API_URL}/carts`,
+        {
+          isCheckout: 0,
+          productId: [productId],
+          sizeQuantityId: [sizeQuantityId],
+          quantity,
+          cartStorageId: [cartStorageId],
+        }
+      );
+    }
   } catch (error) {
     console.log(error);
   }
