@@ -1,8 +1,12 @@
 import { FaChevronDown, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { showCartState } from "../../libs";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
 
 export default function Navbar() {
+  const setShowCart = useSetRecoilState(showCartState);
+
   return (
     <nav className="sticky top-0 z-10 flex w-full flex-wrap items-center justify-between bg-custom-blue-primary py-2 px-4">
       <Link to="/" className="">
@@ -50,7 +54,13 @@ export default function Navbar() {
 
       <div className="flex items-center justify-center gap-3">
         <div className="text-white">
-          <FaShoppingCart className="h-auto w-8 hover:cursor-pointer" />
+          <FaShoppingCart
+            className="h-auto w-8 hover:cursor-pointer"
+            onClick={() => {
+              setShowCart(true);
+              document.body.classList.add("overflow-y-hidden");
+            }}
+          />
         </div>
         <button
           type="button"

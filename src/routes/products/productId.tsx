@@ -1,11 +1,14 @@
 import { useParams } from "react-router-dom";
-import { fetcher, useSWR } from "../../libs";
+import { useSetRecoilState } from "recoil";
+import { fetcher, showCartState, useSWR } from "../../libs";
 import AddToCartButton from "../../component/button-add-to-cart";
 import { useState } from "react";
 import type { ProductType } from "../../types";
+import { addToCart } from "../../services";
 
 export const ProductIdRoute = () => {
   const { productId } = useParams();
+  const setShowCart = useSetRecoilState(showCartState);
   const { data: product, error } = useSWR(
     `${import.meta.env.VITE_BACKEND_API_URL}/products/${productId}?$lookup=*`,
     fetcher
@@ -18,6 +21,15 @@ export const ProductIdRoute = () => {
 
   const { name, image, price, description, sizeQuantity }: ProductType =
     product;
+
+  const handleAddToCart = async () => {
+    const response = await addToCart(
+      productId!,
+      sizeQuantity[sizeIndexChoose]._id,
+      1
+    );
+    setShowCart(true);
+  };
 
   return (
     <div className="mx-auto my-10 flex justify-center gap-40">
@@ -38,6 +50,7 @@ export const ProductIdRoute = () => {
             {sizeQuantity.map(({ size }, index: number) => {
               return (
                 <div
+                  key={index}
                   className={`cursor-pointer rounded-xl border-[1px] border-custom-black-primary py-2 px-5 ${
                     index === sizeIndexChoose
                       ? "bg-custom-black-primary text-custom-white"
@@ -57,7 +70,7 @@ export const ProductIdRoute = () => {
             }).format(sizeQuantity[sizeIndexChoose].quantity)}
           </p>
         </div>
-        <AddToCartButton />
+        <AddToCartButton onClick={handleAddToCart} />
         <p>{description}</p>
       </div>
     </div>
