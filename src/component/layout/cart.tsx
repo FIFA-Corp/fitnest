@@ -7,6 +7,7 @@ import { CartType } from "../../types";
 
 export default function Cart() {
   const [isCartShow, setShowCart] = useRecoilState(showCartState);
+
   const { data: carts, error } = useSWR(
     `${
       import.meta.env.VITE_BACKEND_API_URL
