@@ -28,6 +28,11 @@ export default function Cart() {
     return <div>Loading</div>;
   }
 
+  const totalPrice = carts.reduce(
+    (a: number, b: CartType) => a + b.quantity * b.productId[0].price,
+    0
+  );
+
   return (
     <div
       className={`fixed z-10 h-screen w-screen justify-end backdrop-blur-md ${
@@ -82,7 +87,7 @@ export default function Cart() {
                 style: "currency",
                 currency: "IDR",
                 minimumFractionDigits: 0,
-              }).format(1275000)}
+              }).format(totalPrice)}
             </p>
           </div>
           <div className="flex w-full items-center justify-center bg-custom-blue-primary p-2">
