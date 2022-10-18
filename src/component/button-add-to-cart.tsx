@@ -1,8 +1,15 @@
 import { FaCartPlus } from "react-icons/fa";
 
-export default function AddToCartButton() {
+interface AddToCartButtonProps {
+  onClick: Function;
+}
+
+export default function AddToCartButton({ onClick }: AddToCartButtonProps) {
   return (
-    <button className="bg-custom-yellow flex items-center rounded-xl p-2 text-md font-medium gap-4 max-w-fit outline outline-1">
+    <button
+      onClick={() => onClick()}
+      className="text-md flex max-w-fit items-center gap-4 rounded-xl bg-custom-yellow p-2 font-medium outline outline-1"
+    >
       Tambahkan Ke Keranjang <FaCartPlus />
     </button>
   );

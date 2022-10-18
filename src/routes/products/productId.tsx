@@ -3,6 +3,7 @@ import { fetcher, useSWR } from "../../libs";
 import AddToCartButton from "../../component/button-add-to-cart";
 import { useState } from "react";
 import type { ProductType } from "../../types";
+import { addToCart } from "../../services";
 
 export const ProductIdRoute = () => {
   const { productId } = useParams();
@@ -18,6 +19,15 @@ export const ProductIdRoute = () => {
 
   const { name, image, price, description, sizeQuantity }: ProductType =
     product;
+
+  const handleAddToCart = async () => {
+    console.log("add to cart");
+    const response = await addToCart(
+      productId!,
+      sizeQuantity[sizeIndexChoose]._id,
+      1
+    );
+  };
 
   return (
     <div className="mx-auto my-10 flex justify-center gap-40">
@@ -58,7 +68,7 @@ export const ProductIdRoute = () => {
             }).format(sizeQuantity[sizeIndexChoose].quantity)}
           </p>
         </div>
-        <AddToCartButton />
+        <AddToCartButton onClick={handleAddToCart} />
         <p>{description}</p>
       </div>
     </div>

@@ -1,15 +1,31 @@
 import { FaAngleLeft } from "react-icons/fa";
 import { CartProductCard } from "../ui/card";
 import { useRecoilState } from "recoil";
-import { showCartState } from "../../libs";
+import { fetcher, showCartState, useSWR } from "../../libs";
+import { STORAGE_KEY } from "../../libs/local-storage";
+import { CartType } from "../../types";
 
 export default function Cart() {
   const [isCartShow, setShowCart] = useRecoilState(showCartState);
+  const { data: carts, error } = useSWR(
+    `${
+      import.meta.env.VITE_BACKEND_API_URL
+    }/carts?$lookup=*&cartStorageId=${localStorage.getItem(STORAGE_KEY)}`,
+    fetcher
+  );
 
   const cartHiddenHandle = () => {
     setShowCart(false);
     document.body.classList.remove("overflow-y-hidden");
   };
+
+  if (error) {
+    throw error;
+  }
+
+  if (!carts) {
+    return <div>Loading</div>;
+  }
 
   return (
     <div
@@ -33,26 +49,21 @@ export default function Cart() {
           <div></div>
         </div>
         <div className="mt-3 flex flex-1 flex-col gap-3 overflow-y-auto px-10">
-          <CartProductCard
-            imageUrl="https://api.kontenbase.com/upload/file/storage/634845d740f5380221733632/VlnAuRXO/1663152158.jpg"
-            name="ORTUSEIGHT JOGOSALA SHIVER WHITE/GREY/LIME"
-            price={399000}
-          />
-          <CartProductCard
-            imageUrl="https://api.kontenbase.com/upload/file/storage/634845d740f5380221733632/VlnAuRXO/1663152158.jpg"
-            name="ORTUSEIGHT JOGOSALA SHIVER WHITE/GREY/LIME"
-            price={399000}
-          />
-          <CartProductCard
-            imageUrl="https://api.kontenbase.com/upload/file/storage/634845d740f5380221733632/VlnAuRXO/1663152158.jpg"
-            name="ORTUSEIGHT JOGOSALA SHIVER WHITE/GREY/LIME"
-            price={399000}
-          />
-          <CartProductCard
-            imageUrl="https://api.kontenbase.com/upload/file/storage/634845d740f5380221733632/VlnAuRXO/1663152158.jpg"
-            name="ORTUSEIGHT JOGOSALA SHIVER WHITE/GREY/LIME"
-            price={399000}
-          />
+          {carts.map(
+            ({
+              quantity,
+              sizeQuantityId: sizeQuantity,
+              productId: product,
+            }: CartType) => {
+              return (
+                <CartProductCard
+                  imageUrl={product[0].image[0].url}
+                  name={product[0].name}
+                  price={product[0].price}
+                />
+              );
+            }
+          )}
         </div>
         <div className="flex flex-col">
           <div className="flex flex-row justify-between py-4 px-12">
