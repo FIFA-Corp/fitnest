@@ -40,7 +40,7 @@ export const addToCart = async (
           productId: [productId],
           sizeQuantityId: [sizeQuantityId],
           quantity,
-          cartStorageId: [cartStorageId],
+          cartStorageId: cartStorageId,
         }
       );
     }
@@ -50,13 +50,6 @@ export const addToCart = async (
 };
 
 const addLocalStorage = async () => {
-  const response = await axios.post(
-    `${import.meta.env.VITE_BACKEND_API_URL}/cartStorage`,
-    {
-      name: new Date().toString(),
-    }
-  );
-
-  const cartStorageId = response.data._id;
-  localStorage.setItem(STORAGE_KEY, cartStorageId);
+  const cartStorageId = +new Date();
+  localStorage.setItem(STORAGE_KEY, cartStorageId.toString());
 };
