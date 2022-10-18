@@ -1,12 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { fetcher, useSWR } from "../../libs";
 
 import { ProductCard } from "../../component/ui/card";
 import { ProductType } from "../../types";
 
 export const Products = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const search = searchParams.get("search");
+  const category = searchParams.get("category");
+  const brand = searchParams.get("brand");
+
   const { data: products, error } = useSWR(
-    `${import.meta.env.VITE_BACKEND_API_URL}/products?$lookup=*`,
+    `${
+      import.meta.env.VITE_BACKEND_API_URL
+    }/products?$lookup=*&name[$contains]=${search ?? ""}${
+      category ? `&categoryId=${category}` : ""
+    }${brand ? `&brandId=${brand}` : ""}`,
     fetcher
   );
 
@@ -15,11 +25,11 @@ export const Products = () => {
 
   return (
     <div className="w-full bg-slate-50">
-      <div className="flex justify-between items-center p-5">
-        <h2 className="font-normal text-sm text-custom-black-primary">
+      <div className="flex items-center justify-between p-5">
+        <h2 className="text-sm font-normal text-custom-black-primary">
           Semua Produk
         </h2>
-        <Link to="/" className="text-custom-blue-secondary font-normal text-sm">
+        <Link to="/" className="text-sm font-normal text-custom-blue-secondary">
           Kembali Ke Home
         </Link>
       </div>
