@@ -9,7 +9,7 @@ import {
 import "./index.css";
 import Layout from "./component/layout";
 import { Home, ProductIdRoute, Products } from "./routes";
-import { FourOhFour } from "./routes/products/404";
+import { FourOhFour } from "./routes/404";
 
 const router = createBrowserRouter([
   {

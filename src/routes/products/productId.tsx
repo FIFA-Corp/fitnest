@@ -38,6 +38,7 @@ export const ProductIdRoute = () => {
             {sizeQuantity.map(({ size }, index: number) => {
               return (
                 <div
+                  key={index}
                   className={`cursor-pointer rounded-xl border-[1px] border-custom-black-primary py-2 px-5 ${
                     index === sizeIndexChoose
                       ? "bg-custom-black-primary text-custom-white"
