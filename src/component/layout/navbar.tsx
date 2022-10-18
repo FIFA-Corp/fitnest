@@ -1,11 +1,24 @@
 import { FaChevronDown, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { showCartState } from "../../libs";
+import { fetcher, showCartState, useSWR } from "../../libs";
+import { CategoryType } from "../../types";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
 
 export default function Navbar() {
   const setShowCart = useSetRecoilState(showCartState);
+  const { data: categories, error } = useSWR(
+    `${import.meta.env.VITE_BACKEND_API_URL}/categories?$lookup=*`,
+    fetcher
+  );
+
+  if (error) {
+    throw new Error(error);
+  }
+
+  if (!categories) {
+    return <div></div>;
+  }
 
   return (
     <nav className="sticky top-0 z-10 flex w-full flex-wrap items-center justify-between bg-custom-blue-primary py-2 px-4">
@@ -13,44 +26,46 @@ export default function Navbar() {
         <img src={fitnestLogo}></img>
       </Link>
 
-      <div className="flex items-center">
-        <div className="flex justify-center">
-          <div>
-            <div className="dropdown relative">
-              <button
-                disabled
-                className="dropdown-toggle flex items-center gap-1 whitespace-nowrap rounded-l-lg bg-[#D8D1D1] px-2 py-2.5 text-xs font-medium text-custom-black-secondary hover:cursor-not-allowed"
-                type="button"
-                id="dropdownMenuButton1"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Semua <FaChevronDown />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center ">
-          <div className="input-group flex flex-wrap">
-            <input
-              disabled
-              type="search"
-              className="form-control block flex-auto  bg-white px-3 py-1.5 text-base font-normal text-gray-700 hover:cursor-not-allowed"
-              placeholder="Cari produk"
-              aria-label="Search"
-              aria-describedby="button-addon2"
-            ></input>
-            <button
-              disabled
-              className="btn flex items-center rounded-r-lg bg-custom-yellow px-6 py-2 text-xl font-medium leading-tight text-black hover:cursor-not-allowed"
-              type="button"
-              id="button-addon2"
+      <form className="flex items-center" action="/products">
+        <div className="input-group flex flex-wrap">
+          <select
+            name="category"
+            className="m-0 flex items-center whitespace-nowrap rounded-l-lg bg-[#D8D1D1] px-2 py-[9px] text-xs font-medium text-custom-black-secondary outline-none"
+          >
+            <option
+              value=""
+              className="mx-2 py-[9px] text-xs font-medium text-custom-black-secondary"
             >
-              <FaSearch />
-            </button>
-          </div>
+              Semua
+            </option>
+            {categories.map(({ _id, name }: CategoryType) => {
+              return (
+                <option
+                  value={_id}
+                  className="px-2 py-[9px] text-xs font-medium text-custom-black-secondary"
+                >
+                  {name}
+                </option>
+              );
+            })}
+          </select>
+          <input
+            type="search"
+            className="form-control block flex-auto  bg-white px-3 py-1.5 text-base font-normal text-gray-700  outline-none"
+            placeholder="Cari produk"
+            aria-label="Search"
+            aria-describedby="button-addon2"
+            name="search"
+          ></input>
+          <button
+            className="btn flex items-center rounded-r-lg bg-custom-yellow px-6 py-2 text-xl font-medium leading-tight text-black  outline-none"
+            type="submit"
+            id="button-addon2"
+          >
+            <FaSearch />
+          </button>
         </div>
-      </div>
+      </form>
 
       <div className="flex items-center justify-center gap-3">
         <div className="text-white">

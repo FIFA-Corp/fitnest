@@ -7,14 +7,14 @@ import { ProductType } from "../../types";
 export const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const query = searchParams.get("query");
+  const search = searchParams.get("search");
   const category = searchParams.get("category");
   const brand = searchParams.get("brand");
 
   const { data: products, error } = useSWR(
     `${
       import.meta.env.VITE_BACKEND_API_URL
-    }/products?$lookup=*&name[$contains]=${query ?? ""}${
+    }/products?$lookup=*&name[$contains]=${search ?? ""}${
       category ? `&categoryId=${category}` : ""
     }${brand ? `&brandId=${brand}` : ""}`,
     fetcher
