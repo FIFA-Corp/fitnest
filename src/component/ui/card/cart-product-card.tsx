@@ -55,7 +55,7 @@ export const CartProductCard = ({
             style: "currency",
             currency: "IDR",
             minimumFractionDigits: 0,
-          }).format(price)}
+          }).format(price * quantity)}
         </h3>
       </div>
     </div>
