@@ -1,4 +1,6 @@
 import { FaTrashAlt } from "react-icons/fa";
+import { useSWRConfig } from "swr";
+import { STORAGE_KEY } from "../../../libs/local-storage";
 import { deleteCart } from "../../../services";
 
 interface CartProductCardProps {
@@ -18,8 +20,15 @@ export const CartProductCard = ({
   size,
   quantity,
 }: CartProductCardProps) => {
+  const { mutate } = useSWRConfig();
+
   const handleDelete = async () => {
     await deleteCart(cartId);
+    mutate(
+      `${
+        import.meta.env.VITE_BACKEND_API_URL
+      }/carts?$lookup=*&cartStorageId=${localStorage.getItem(STORAGE_KEY)}`
+    );
   };
 
   return (

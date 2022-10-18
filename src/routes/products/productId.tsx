@@ -5,10 +5,13 @@ import AddToCartButton from "../../component/button-add-to-cart";
 import { useState } from "react";
 import type { ProductType } from "../../types";
 import { addToCart } from "../../services";
+import { useSWRConfig } from "swr";
+import { STORAGE_KEY } from "../../libs/local-storage";
 
 export const ProductIdRoute = () => {
   const { productId } = useParams();
   const setShowCart = useSetRecoilState(showCartState);
+  const { mutate } = useSWRConfig();
   const { data: product, error } = useSWR(
     `${import.meta.env.VITE_BACKEND_API_URL}/products/${productId}?$lookup=*`,
     fetcher
@@ -29,6 +32,11 @@ export const ProductIdRoute = () => {
       1
     );
     setShowCart(true);
+    mutate(
+      `${
+        import.meta.env.VITE_BACKEND_API_URL
+      }/carts?$lookup=*&cartStorageId=${localStorage.getItem(STORAGE_KEY)}`
+    );
   };
 
   return (
