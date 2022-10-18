@@ -1,16 +1,23 @@
 import { FaTrashAlt } from "react-icons/fa";
+import { deleteCart } from "../../../services";
 
 interface CartProductCardProps {
+  cartId: string;
   name: string;
   imageUrl: string;
   price: number;
 }
 
 export const CartProductCard = ({
+  cartId,
   name,
   imageUrl,
   price,
 }: CartProductCardProps) => {
+  const handleDelete = async () => {
+    await deleteCart(cartId);
+  };
+
   return (
     <div className="grid w-full grid-cols-2 items-center rounded-2xl border-[1px] border-custom-black-primary py-4 px-7">
       <img
@@ -20,7 +27,10 @@ export const CartProductCard = ({
       />
       <div className="flex h-full flex-col justify-between">
         <div className="flex flex-col items-end gap-2">
-          <FaTrashAlt className="text-custom-black-primary/50" />
+          <FaTrashAlt
+            className="cursor-pointer text-custom-black-primary/50"
+            onClick={handleDelete}
+          />
           <h2 className="w-full text-lg font-normal line-clamp-3">{name}</h2>
         </div>
         <h3 className="mb-2 text-lg font-bold">

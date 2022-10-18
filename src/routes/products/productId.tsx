@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
-import { fetcher, useSWR } from "../../libs";
+import { useSetRecoilState } from "recoil";
+import { fetcher, showCartState, useSWR } from "../../libs";
 import AddToCartButton from "../../component/button-add-to-cart";
 import { useState } from "react";
 import type { ProductType } from "../../types";
@@ -7,6 +8,7 @@ import { addToCart } from "../../services";
 
 export const ProductIdRoute = () => {
   const { productId } = useParams();
+  const setShowCart = useSetRecoilState(showCartState);
   const { data: product, error } = useSWR(
     `${import.meta.env.VITE_BACKEND_API_URL}/products/${productId}?$lookup=*`,
     fetcher
@@ -21,12 +23,12 @@ export const ProductIdRoute = () => {
     product;
 
   const handleAddToCart = async () => {
-    console.log("add to cart");
     const response = await addToCart(
       productId!,
       sizeQuantity[sizeIndexChoose]._id,
       1
     );
+    setShowCart(true);
   };
 
   return (

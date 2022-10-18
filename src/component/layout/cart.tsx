@@ -50,13 +50,19 @@ export default function Cart() {
         </div>
         <div className="mt-3 flex flex-1 flex-col gap-3 overflow-y-auto px-10">
           {carts.map(
-            ({
-              quantity,
-              sizeQuantityId: sizeQuantity,
-              productId: product,
-            }: CartType) => {
+            (
+              {
+                _id,
+                quantity,
+                sizeQuantityId: sizeQuantity,
+                productId: product,
+              }: CartType,
+              index: number
+            ) => {
               return (
                 <CartProductCard
+                  key={index}
+                  cartId={_id}
                   imageUrl={product[0].image[0].url}
                   name={product[0].name}
                   price={product[0].price}

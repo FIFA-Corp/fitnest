@@ -32,7 +32,6 @@ export const addToCart = async (
           quantity: cart.data[0].quantity + quantity,
         }
       );
-      console.log(response);
     } else {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_API_URL}/carts`,
