@@ -38,7 +38,7 @@ export default function Navbar() {
             ></input>
             <button
               disabled
-              className="btn flex items-center rounded-r-lg bg-custom-yellow px-6 py-2 text-xl font-medium leading-tight text-white hover:cursor-not-allowed"
+              className="btn flex items-center rounded-r-lg bg-custom-yellow px-6 py-2 text-xl font-medium leading-tight text-black hover:cursor-not-allowed"
               type="button"
               id="button-addon2"
             >
