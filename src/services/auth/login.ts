@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useSWRConfig } from "swr";
+
 import { AUTH_KEY } from "../../libs/local-storage";
 import { LoginType } from "../../types";
 
@@ -8,8 +10,12 @@ export const login = async (loginData: LoginType) => {
       `${import.meta.env.VITE_BACKEND_API_URL}/auth/login`,
       loginData
     );
-    localStorage.setItem(AUTH_KEY, res.data.token);
-    return res;
+
+    const token = res?.data?.token;
+
+    localStorage.setItem(AUTH_KEY, token);
+
+    return token;
   } catch (error) {
     throw error;
   }

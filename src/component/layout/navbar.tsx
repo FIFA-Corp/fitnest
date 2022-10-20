@@ -1,7 +1,8 @@
-import { useContext } from "react";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+
+import { AUTH_KEY } from "../../libs/local-storage";
 import { AuthContext } from "../../context";
 import { fetcher, showCartState, useSWR } from "../../libs";
 import { headers } from "../../libs/headers";
@@ -9,13 +10,13 @@ import { STORAGE_KEY } from "../../libs/local-storage";
 import { logout } from "../../services";
 import { CategoryType } from "../../types";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
+import { useSWRConfig } from "swr";
 
 export default function Navbar() {
+  // const auth = useContext(AuthContext);
+  const { mutate } = useSWRConfig();
   const setShowCart = useSetRecoilState(showCartState);
-  const auth = useContext(AuthContext);
   const navigate = useNavigate();
-
-  console.log({ auth });
 
   // search form
   const { data: categories, error } = useSWR(
@@ -33,15 +34,25 @@ export default function Navbar() {
 
   // navbar
   // const { user, error } = await kontenbase.auth.user()
-  // const { data: user, error: userError } = useSWR(
-  //   [`${import.meta.env.VITE_BACKEND_API_URL}/auth/user`, { headers }],
-  //   fetcher
-  // );
+  const { data: user, error: userError } = useSWR(
+    [
+      `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem(AUTH_KEY)}` },
+      },
+    ],
+    fetcher
+  );
 
-  const isAuthenticated = Boolean(auth?.user);
+  const isAuthLoading = !user && !userError;
+  const isAuthenticated = Boolean(user?.email);
 
-  const logoutHandle = async () => {
+  const handleLogout = async () => {
     await logout();
+    mutate([
+      `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
+      { headers: null },
+    ]);
     navigate("/login");
   };
 
@@ -117,35 +128,58 @@ export default function Navbar() {
           )}
         </div>
 
-        {!isAuthenticated && (
-          <>
-            <Link
-              to="/login"
-              type="button"
-              className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
-            >
-              Masuk
-            </Link>
-            <Link
-              to="/register"
-              type="button"
-              className="inline-block rounded bg-custom-yellow px-6 py-2.5 text-xs font-medium leading-tight text-gray-700 shadow-md transition duration-150 ease-in-out hover:bg-[#e6e600] hover:shadow-lg focus:bg-[#e6e600] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#e6e600] active:shadow-lg"
-            >
-              Daftar
-            </Link>
-          </>
-        )}
-
-        {isAuthenticated && (
-          <button
-            type="button"
-            className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
-            onClick={logoutHandle}
-          >
-            Logout
-          </button>
+        {isAuthLoading ? (
+          <span>?</span>
+        ) : (
+          <AuthButtons
+            isAuthenticated={isAuthenticated}
+            handleLogout={handleLogout}
+          />
         )}
       </div>
     </nav>
   );
 }
+
+interface AuthButtonsProps {
+  isAuthenticated: boolean;
+  handleLogout: () => void;
+}
+
+export const AuthButtons = ({
+  isAuthenticated,
+  handleLogout,
+}: AuthButtonsProps) => {
+  return (
+    <>
+      {!isAuthenticated && (
+        <>
+          <Link
+            to="/login"
+            type="button"
+            className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
+          >
+            Masuk
+          </Link>
+          <Link
+            to="/register"
+            type="button"
+            className="inline-block rounded bg-custom-yellow px-6 py-2.5 text-xs font-medium leading-tight text-gray-700 shadow-md transition duration-150 ease-in-out hover:bg-[#e6e600] hover:shadow-lg focus:bg-[#e6e600] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#e6e600] active:shadow-lg"
+          >
+            Daftar
+          </Link>
+        </>
+      )}
+
+      {isAuthenticated && (
+        <button
+          type="button"
+          className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+      )}
+    </>
+  );
+};
