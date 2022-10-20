@@ -1,12 +1,16 @@
+import { useEffect, useState } from "react";
 import { FaChevronDown, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { fetcher, showCartState, useSWR } from "../../libs";
 import { STORAGE_KEY } from "../../libs/local-storage";
+import { checkAuth } from "../../services/auth/check-auth";
 import { CategoryType } from "../../types";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
 
 export default function Navbar() {
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+
   const setShowCart = useSetRecoilState(showCartState);
   const { data: categories, error } = useSWR(
     `${import.meta.env.VITE_BACKEND_API_URL}/categories?$lookup=*`,
@@ -19,6 +23,13 @@ export default function Navbar() {
     }/carts?$lookup=*&cartStorageId=${localStorage.getItem(STORAGE_KEY)}`,
     fetcher
   );
+
+  useEffect(() => {
+    (async () => {
+      const isAuth = await checkAuth();
+      setIsLogin(isAuth);
+    })();
+  }, []);
 
   if (error || cartError) {
     throw new Error(error);
@@ -93,18 +104,32 @@ export default function Navbar() {
             </div>
           )}
         </div>
-        <button
-          type="button"
-          className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
-        >
-          Masuk
-        </button>
-        <button
-          type="button"
-          className="inline-block rounded bg-custom-yellow px-6 py-2.5 text-xs font-medium leading-tight text-gray-700 shadow-md transition duration-150 ease-in-out hover:bg-[#e6e600] hover:shadow-lg focus:bg-[#e6e600] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#e6e600] active:shadow-lg"
-        >
-          Daftar
-        </button>
+        {!isLogin && (
+          <Link
+            to="/login"
+            type="button"
+            className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
+          >
+            Masuk
+          </Link>
+        )}
+        {!isLogin && (
+          <Link
+            to="/register"
+            type="button"
+            className="inline-block rounded bg-custom-yellow px-6 py-2.5 text-xs font-medium leading-tight text-gray-700 shadow-md transition duration-150 ease-in-out hover:bg-[#e6e600] hover:shadow-lg focus:bg-[#e6e600] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#e6e600] active:shadow-lg"
+          >
+            Daftar
+          </Link>
+        )}
+        {isLogin && (
+          <button
+            type="button"
+            className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
+          >
+            Logout
+          </button>
+        )}
       </div>
     </nav>
   );
