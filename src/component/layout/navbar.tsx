@@ -10,28 +10,30 @@ import fitnestLogo from "../ui/images/fitnestLogo.png";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const { data: user, error: userError } = useSWR(
-    [
-      `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
-      {
-        headers,
-      },
-    ],
-    fetcher
-  );
-
   const setShowCart = useSetRecoilState(showCartState);
+
+  // search form
   const { data: categories, error } = useSWR(
     `${import.meta.env.VITE_BACKEND_API_URL}/categories?$lookup=*`,
     fetcher
   );
 
+  // navbar
   const { data: carts, error: cartError } = useSWR(
     `${
       import.meta.env.VITE_BACKEND_API_URL
     }/carts?$lookup=*&cartStorageId=${localStorage.getItem(STORAGE_KEY)}`,
     fetcher
   );
+
+  // navbar
+  // const { user, error } = await kontenbase.auth.user()
+  const { data: user, error: userError } = useSWR(
+    [`${import.meta.env.VITE_BACKEND_API_URL}/auth/user`, { headers }],
+    fetcher
+  );
+
+  const isAuthenticated = Boolean(user?.email);
 
   const logoutHandle = async () => {
     await logout();
@@ -40,10 +42,6 @@ export default function Navbar() {
 
   if (error || cartError || userError) {
     throw new Error(error);
-  }
-
-  if (!categories || !carts || !user) {
-    return <div></div>;
   }
 
   return (
@@ -64,17 +62,18 @@ export default function Navbar() {
             >
               Semua
             </option>
-            {categories.map(({ _id, name }: CategoryType) => {
-              return (
-                <option
-                  key={_id}
-                  value={_id}
-                  className="px-2 py-[9px] text-xs font-medium text-custom-black-secondary"
-                >
-                  {name}
-                </option>
-              );
-            })}
+            {categories?.length > 0 &&
+              categories.map(({ _id, name }: CategoryType) => {
+                return (
+                  <option
+                    key={_id}
+                    value={_id}
+                    className="px-2 py-[9px] text-xs font-medium text-custom-black-secondary"
+                  >
+                    {name}
+                  </option>
+                );
+              })}
           </select>
           <input
             type="search"
@@ -103,7 +102,8 @@ export default function Navbar() {
               document.body.classList.add("overflow-y-hidden");
             }}
           />
-          {carts!.length > 0 && (
+
+          {carts?.length > 0 && (
             <div className="absolute bottom-2 ml-4 flex h-5 w-5 items-center justify-center rounded-full bg-custom-yellow">
               <p className="mr-[1px] text-[9px] text-custom-black-primary">
                 {carts!.length > 99 ? "99" : carts!.length}
@@ -111,25 +111,27 @@ export default function Navbar() {
             </div>
           )}
         </div>
-        {!user!.email && (
-          <Link
-            to="/login"
-            type="button"
-            className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
-          >
-            Masuk
-          </Link>
+
+        {!isAuthenticated && (
+          <>
+            <Link
+              to="/login"
+              type="button"
+              className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
+            >
+              Masuk
+            </Link>
+            <Link
+              to="/register"
+              type="button"
+              className="inline-block rounded bg-custom-yellow px-6 py-2.5 text-xs font-medium leading-tight text-gray-700 shadow-md transition duration-150 ease-in-out hover:bg-[#e6e600] hover:shadow-lg focus:bg-[#e6e600] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#e6e600] active:shadow-lg"
+            >
+              Daftar
+            </Link>
+          </>
         )}
-        {!user!.email && (
-          <Link
-            to="/register"
-            type="button"
-            className="inline-block rounded bg-custom-yellow px-6 py-2.5 text-xs font-medium leading-tight text-gray-700 shadow-md transition duration-150 ease-in-out hover:bg-[#e6e600] hover:shadow-lg focus:bg-[#e6e600] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#e6e600] active:shadow-lg"
-          >
-            Daftar
-          </Link>
-        )}
-        {user!.email && (
+
+        {isAuthenticated && (
           <button
             type="button"
             className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
