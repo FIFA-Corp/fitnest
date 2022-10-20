@@ -5,7 +5,6 @@ import { fetcher, showCartState, useSWR } from "../../libs";
 import { headers } from "../../libs/headers";
 import { STORAGE_KEY } from "../../libs/local-storage";
 import { logout } from "../../services";
-import { checkAuth } from "../../services/auth/check-auth";
 import { CategoryType } from "../../types";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
 
@@ -115,7 +114,7 @@ export default function Navbar() {
             </div>
           )}
         </div>
-        {!user.email && (
+        {!user!.email && (
           <Link
             to="/login"
             type="button"
@@ -124,7 +123,7 @@ export default function Navbar() {
             Masuk
           </Link>
         )}
-        {!user.email && (
+        {!user!.email && (
           <Link
             to="/register"
             type="button"
@@ -133,7 +132,7 @@ export default function Navbar() {
             Daftar
           </Link>
         )}
-        {user.email && (
+        {user!.email && (
           <button
             type="button"
             className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
