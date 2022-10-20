@@ -18,7 +18,6 @@ export default function Login() {
     try {
       event.preventDefault();
       const token = await login(loginData);
-      console.log({ token });
 
       mutate([
         `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
