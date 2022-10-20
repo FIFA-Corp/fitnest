@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 
 export default function Login() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-custom-white">
-      <form className="flex w-full max-w-md flex-col gap-6 rounded-xl bg-custom-white p-10 shadow-lg">
-        <div className="flex w-full flex-row items-end justify-between">
+    <div className="flex min-h-screen items-center justify-center bg-custom-white  p-4">
+      <form className="flex w-full max-w-md flex-col gap-4 rounded-xl bg-custom-white p-10 shadow-lg">
+        <div className="mb-2 flex w-full flex-row items-end justify-between">
           <h1 className="text-3xl font-bold text-custom-black-primary">
             Masuk
           </h1>
@@ -41,7 +41,7 @@ export default function Login() {
         </div>
         <button
           type="submit"
-          className="rounded-lg bg-custom-blue-primary py-3 text-white transition-all duration-300 ease-linear hover:bg-custom-blue-secondary"
+          className="mt-2 rounded-lg bg-custom-blue-primary py-3 text-white transition-all duration-300 ease-linear hover:bg-custom-blue-secondary"
         >
           Masuk
         </button>
