@@ -19,9 +19,6 @@ export default function Navbar() {
     ],
     fetcher
   );
-  if (userError) {
-    return userError;
-  }
 
   const setShowCart = useSetRecoilState(showCartState);
   const { data: categories, error } = useSWR(
@@ -41,11 +38,11 @@ export default function Navbar() {
     navigate("/login");
   };
 
-  if (error || cartError) {
+  if (error || cartError || userError) {
     throw new Error(error);
   }
 
-  if (!categories || !carts) {
+  if (!categories || !carts || !user) {
     return <div></div>;
   }
 
