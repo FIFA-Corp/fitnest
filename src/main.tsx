@@ -6,6 +6,8 @@ import "./index.css";
 import Layout from "./component/layout";
 import { Home, ProductIdRoute, Products } from "./routes";
 import { FourOhFour } from "./routes/404";
+import Login from "./routes/login";
+import Register from "./routes/register";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,16 @@ const router = createBrowserRouter([
         element: <ProductIdRoute />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+    errorElement: <FourOhFour />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+    errorElement: <FourOhFour />,
   },
 ]);
 

@@ -49,6 +49,7 @@ export default function Navbar() {
             {categories.map(({ _id, name }: CategoryType) => {
               return (
                 <option
+                  key={_id}
                   value={_id}
                   className="px-2 py-[9px] text-xs font-medium text-custom-black-secondary"
                 >
