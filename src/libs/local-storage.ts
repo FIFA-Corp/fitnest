@@ -1,3 +1,4 @@
+export const AUTH_KEY = "auth-key";
 export const STORAGE_KEY = "cart-storage";
 
 export const checkLocalStorageAvailable = () => {
