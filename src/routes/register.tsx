@@ -1,9 +1,11 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSWRConfig } from "swr";
 import { register } from "../services";
 
 export default function Register() {
   const navigate = useNavigate();
+  const { mutate } = useSWRConfig();
 
   const registerHandle = async (event: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -28,10 +30,9 @@ export default function Register() {
         return "error";
       }
 
-      await register(registerData);
+      const res = await register(registerData);
 
-      navigate("/");
-      location.reload();
+      location.replace("/");
     } catch (error) {
       alert("terjadi kesalahan ketika mendaftar");
     }

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { FaChevronDown, FaSearch, FaShoppingCart } from "react-icons/fa";
+import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { fetcher, showCartState, useSWR } from "../../libs";
+import { headers } from "../../libs/headers";
 import { STORAGE_KEY } from "../../libs/local-storage";
 import { logout } from "../../services";
 import { checkAuth } from "../../services/auth/check-auth";
@@ -11,7 +11,18 @@ import fitnestLogo from "../ui/images/fitnestLogo.png";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const { data: user, error: userError } = useSWR(
+    [
+      `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
+      {
+        headers,
+      },
+    ],
+    fetcher
+  );
+  if (userError) {
+    return userError;
+  }
 
   const setShowCart = useSetRecoilState(showCartState);
   const { data: categories, error } = useSWR(
@@ -30,13 +41,6 @@ export default function Navbar() {
     await logout();
     navigate("/login");
   };
-
-  useEffect(() => {
-    (async () => {
-      const isAuth = await checkAuth();
-      setIsLogin(isAuth);
-    })();
-  }, []);
 
   if (error || cartError) {
     throw new Error(error);
@@ -111,7 +115,7 @@ export default function Navbar() {
             </div>
           )}
         </div>
-        {!isLogin && (
+        {!user.email && (
           <Link
             to="/login"
             type="button"
@@ -120,7 +124,7 @@ export default function Navbar() {
             Masuk
           </Link>
         )}
-        {!isLogin && (
+        {!user.email && (
           <Link
             to="/register"
             type="button"
@@ -129,7 +133,7 @@ export default function Navbar() {
             Daftar
           </Link>
         )}
-        {isLogin && (
+        {user.email && (
           <button
             type="button"
             className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"

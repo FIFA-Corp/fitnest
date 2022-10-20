@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSWRConfig } from "swr";
 import { login } from "../services/auth/login";
 import { LoginType } from "../types";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { mutate } = useSWRConfig();
   const [loginData, setLoginData] = useState<LoginType>({
     email: "",
     password: "",
@@ -15,8 +17,7 @@ export default function Login() {
       event.preventDefault();
       await login(loginData);
 
-      navigate("/");
-      location.reload();
+      location.replace("/");
     } catch (error) {
       alert("Cek kembali email dan password anda");
     }
