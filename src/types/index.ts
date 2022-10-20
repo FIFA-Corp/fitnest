@@ -5,3 +5,4 @@ export * from "./product-type";
 export * from "./size-quantity-type";
 export * from "./cart-type";
 export * from "./login-type";
+export * from "./register-type";

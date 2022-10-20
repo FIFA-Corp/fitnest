@@ -16,6 +16,7 @@ export default function Login() {
       await login(loginData);
 
       navigate("/");
+      location.reload();
     } catch (error) {
       alert("Cek kembali email dan password anda");
     }

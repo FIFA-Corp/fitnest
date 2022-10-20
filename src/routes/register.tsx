@@ -1,9 +1,48 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { register } from "../services";
 
 export default function Register() {
+  const navigate = useNavigate();
+
+  const registerHandle = async (event: React.FormEvent<HTMLFormElement>) => {
+    try {
+      event.preventDefault();
+      const target = event.target as typeof event.target & {
+        firstName: { value: string };
+        lastName: { value: string };
+        email: { value: string };
+        password: { value: string };
+        confirmPassword: { value: string };
+      };
+
+      const registerData = {
+        firstName: target.firstName.value,
+        lastName: target.lastName.value,
+        email: target.email.value,
+        password: target.password.value,
+      };
+
+      if (registerData.password !== target.confirmPassword.value) {
+        alert("password dan konfirmasi password harus sama");
+        return "error";
+      }
+
+      await register(registerData);
+
+      navigate("/");
+      location.reload();
+    } catch (error) {
+      alert("terjadi kesalahan ketika mendaftar");
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-custom-white p-4">
-      <form className="flex w-full max-w-md flex-col gap-4 rounded-xl bg-custom-white p-10 shadow-lg">
+      <form
+        onSubmit={registerHandle}
+        className="flex w-full max-w-md flex-col gap-4 rounded-xl bg-custom-white p-10 shadow-lg"
+      >
         <div className="flex w-full flex-row items-end justify-between">
           <h1 className="text-3xl font-bold text-custom-black-primary">
             Daftar
@@ -16,25 +55,25 @@ export default function Register() {
           </Link>
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="first-name" className="text-sm">
+          <label htmlFor="firstName" className="text-sm">
             Nama Depan
           </label>
           <input
             type="text"
-            id="first-name"
-            name="first-name"
+            id="firstName"
+            name="firstName"
             className="rounded-lg border-[1px] border-custom-black-secondary p-3 text-sm text-custom-black-secondary outline-none placeholder:font-light placeholder:text-custom-grey"
             placeholder="cth: Mesut"
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="last-name" className="text-sm">
+          <label htmlFor="lastName" className="text-sm">
             Nama Belakang
           </label>
           <input
             type="text"
-            id="last-name"
-            name="last-name"
+            id="lastName"
+            name="lastName"
             className="rounded-lg border-[1px] border-custom-black-secondary p-3 text-sm text-custom-black-secondary outline-none placeholder:font-light placeholder:text-custom-grey"
             placeholder="cth: Ozil"
           />
@@ -64,13 +103,13 @@ export default function Register() {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="confirm-password" className="text-sm">
+          <label htmlFor="confirmPassword" className="text-sm">
             Konfirmasi Password
           </label>
           <input
             type="password"
-            id="confirm-password"
-            name="confirm-password"
+            id="confirmPassword"
+            name="confirmPassword"
             className="rounded-lg border-[1px] border-custom-black-secondary p-3 text-sm text-custom-black-secondary outline-none placeholder:font-light placeholder:text-custom-grey"
             placeholder="harus sama dengan password"
           />
