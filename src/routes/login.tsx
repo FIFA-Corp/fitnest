@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSWRConfig } from "swr";
+
+import { AUTH_KEY } from "../libs/local-storage";
 import { login } from "../services/auth/login";
 import { LoginType } from "../types";
 
@@ -15,9 +17,19 @@ export default function Login() {
   const onSubmitHandle = async (event: any) => {
     try {
       event.preventDefault();
-      await login(loginData);
+      const token = await login(loginData);
 
-      location.replace("/");
+      mutate([
+        `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(AUTH_KEY)}`,
+          },
+        },
+      ]);
+
+      navigate("/");
+      // location.replace("/");
     } catch (error) {
       alert("Cek kembali email dan password anda");
     }

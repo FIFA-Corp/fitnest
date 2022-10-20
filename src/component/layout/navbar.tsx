@@ -1,31 +1,30 @@
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+
+import { AUTH_KEY } from "../../libs/local-storage";
+import { AuthContext } from "../../context";
 import { fetcher, showCartState, useSWR } from "../../libs";
 import { headers } from "../../libs/headers";
 import { STORAGE_KEY } from "../../libs/local-storage";
 import { logout } from "../../services";
 import { CategoryType } from "../../types";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
+import { useSWRConfig } from "swr";
 
 export default function Navbar() {
-  const navigate = useNavigate();
-  const { data: user, error: userError } = useSWR(
-    [
-      `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
-      {
-        headers,
-      },
-    ],
-    fetcher
-  );
-
+  // const auth = useContext(AuthContext);
+  const { mutate } = useSWRConfig();
   const setShowCart = useSetRecoilState(showCartState);
+  const navigate = useNavigate();
+
+  // search form
   const { data: categories, error } = useSWR(
     `${import.meta.env.VITE_BACKEND_API_URL}/categories?$lookup=*`,
     fetcher
   );
 
+  // navbar
   const { data: carts, error: cartError } = useSWR(
     `${
       import.meta.env.VITE_BACKEND_API_URL
@@ -33,18 +32,33 @@ export default function Navbar() {
     fetcher
   );
 
-  const logoutHandle = async () => {
+  // navbar
+  // const { user, error } = await kontenbase.auth.user()
+  const { data: user, error: userError } = useSWR(
+    [
+      `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem(AUTH_KEY)}` },
+      },
+    ],
+    fetcher
+  );
+
+  const isAuthLoading = !user && !userError;
+  const isAuthenticated = Boolean(user?.email);
+
+  const handleLogout = async () => {
     await logout();
+    mutate([
+      `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
+      { headers: null },
+    ]);
     navigate("/login");
   };
 
-  if (error || cartError || userError) {
-    throw new Error(error);
-  }
-
-  if (!categories || !carts || !user) {
-    return <div></div>;
-  }
+  // if (error || cartError || userError) {
+  //   throw new Error(error);
+  // }
 
   return (
     <nav className="sticky top-0 z-10 flex w-full flex-wrap items-center justify-between bg-custom-blue-primary py-2 px-4">
@@ -64,17 +78,18 @@ export default function Navbar() {
             >
               Semua
             </option>
-            {categories.map(({ _id, name }: CategoryType) => {
-              return (
-                <option
-                  key={_id}
-                  value={_id}
-                  className="px-2 py-[9px] text-xs font-medium text-custom-black-secondary"
-                >
-                  {name}
-                </option>
-              );
-            })}
+            {categories?.length > 0 &&
+              categories.map(({ _id, name }: CategoryType) => {
+                return (
+                  <option
+                    key={_id}
+                    value={_id}
+                    className="px-2 py-[9px] text-xs font-medium text-custom-black-secondary"
+                  >
+                    {name}
+                  </option>
+                );
+              })}
           </select>
           <input
             type="search"
@@ -103,7 +118,8 @@ export default function Navbar() {
               document.body.classList.add("overflow-y-hidden");
             }}
           />
-          {carts!.length > 0 && (
+
+          {carts?.length > 0 && (
             <div className="absolute bottom-2 ml-4 flex h-5 w-5 items-center justify-center rounded-full bg-custom-yellow">
               <p className="mr-[1px] text-[9px] text-custom-black-primary">
                 {carts!.length > 99 ? "99" : carts!.length}
@@ -111,7 +127,33 @@ export default function Navbar() {
             </div>
           )}
         </div>
-        {!user!.email && (
+
+        {isAuthLoading ? (
+          <span>?</span>
+        ) : (
+          <AuthButtons
+            isAuthenticated={isAuthenticated}
+            handleLogout={handleLogout}
+          />
+        )}
+      </div>
+    </nav>
+  );
+}
+
+interface AuthButtonsProps {
+  isAuthenticated: boolean;
+  handleLogout: () => void;
+}
+
+export const AuthButtons = ({
+  isAuthenticated,
+  handleLogout,
+}: AuthButtonsProps) => {
+  return (
+    <>
+      {!isAuthenticated && (
+        <>
           <Link
             to="/login"
             type="button"
@@ -119,8 +161,6 @@ export default function Navbar() {
           >
             Masuk
           </Link>
-        )}
-        {!user!.email && (
           <Link
             to="/register"
             type="button"
@@ -128,17 +168,18 @@ export default function Navbar() {
           >
             Daftar
           </Link>
-        )}
-        {user!.email && (
-          <button
-            type="button"
-            className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
-            onClick={logoutHandle}
-          >
-            Logout
-          </button>
-        )}
-      </div>
-    </nav>
+        </>
+      )}
+
+      {isAuthenticated && (
+        <button
+          type="button"
+          className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+      )}
+    </>
   );
-}
+};
