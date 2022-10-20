@@ -17,7 +17,8 @@ export default function Login() {
       event.preventDefault();
       await login(loginData);
 
-      location.replace("/");
+      navigate("/");
+      // location.replace("/");
     } catch (error) {
       alert("Cek kembali email dan password anda");
     }
