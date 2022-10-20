@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { FaChevronDown, FaSearch, FaShoppingCart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { fetcher, showCartState, useSWR } from "../../libs";
 import { STORAGE_KEY } from "../../libs/local-storage";
+import { logout } from "../../services";
 import { checkAuth } from "../../services/auth/check-auth";
 import { CategoryType } from "../../types";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   const setShowCart = useSetRecoilState(showCartState);
@@ -23,6 +25,11 @@ export default function Navbar() {
     }/carts?$lookup=*&cartStorageId=${localStorage.getItem(STORAGE_KEY)}`,
     fetcher
   );
+
+  const logoutHandle = async () => {
+    await logout();
+    navigate("/login");
+  };
 
   useEffect(() => {
     (async () => {
@@ -126,6 +133,7 @@ export default function Navbar() {
           <button
             type="button"
             className="inline-block rounded border-2 border-white px-6 py-2 text-xs font-medium leading-tight text-white transition duration-150 ease-in-out hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0"
+            onClick={logoutHandle}
           >
             Logout
           </button>
