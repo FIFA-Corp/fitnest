@@ -1,6 +1,8 @@
+import { useContext } from "react";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import { AuthContext } from "../../context";
 import { fetcher, showCartState, useSWR } from "../../libs";
 import { headers } from "../../libs/headers";
 import { STORAGE_KEY } from "../../libs/local-storage";
@@ -9,8 +11,11 @@ import { CategoryType } from "../../types";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
 
 export default function Navbar() {
-  const navigate = useNavigate();
   const setShowCart = useSetRecoilState(showCartState);
+  const auth = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  console.log({ auth });
 
   // search form
   const { data: categories, error } = useSWR(
@@ -28,21 +33,21 @@ export default function Navbar() {
 
   // navbar
   // const { user, error } = await kontenbase.auth.user()
-  const { data: user, error: userError } = useSWR(
-    [`${import.meta.env.VITE_BACKEND_API_URL}/auth/user`, { headers }],
-    fetcher
-  );
+  // const { data: user, error: userError } = useSWR(
+  //   [`${import.meta.env.VITE_BACKEND_API_URL}/auth/user`, { headers }],
+  //   fetcher
+  // );
 
-  const isAuthenticated = Boolean(user?.email);
+  const isAuthenticated = Boolean(auth?.user);
 
   const logoutHandle = async () => {
     await logout();
     navigate("/login");
   };
 
-  if (error || cartError || userError) {
-    throw new Error(error);
-  }
+  // if (error || cartError || userError) {
+  //   throw new Error(error);
+  // }
 
   return (
     <nav className="sticky top-0 z-10 flex w-full flex-wrap items-center justify-between bg-custom-blue-primary py-2 px-4">
