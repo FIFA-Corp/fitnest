@@ -8,7 +8,6 @@ import { Home, ProductIdRoute, Products } from "./routes";
 import { FourOhFour } from "./routes/404";
 import Login from "./routes/login";
 import Register from "./routes/register";
-import { AuthContextProvider, defaultAuthContextValue } from "./context";
 
 const router = createBrowserRouter([
   {
@@ -49,9 +48,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   // <React.StrictMode>
   <RecoilRoot>
-    <AuthContextProvider value={defaultAuthContextValue}>
-      <RouterProvider router={router} />
-    </AuthContextProvider>
+    <RouterProvider router={router} />
   </RecoilRoot>
   // </React.StrictMode>
 );

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSWRConfig } from "swr";
+import { getHeaders } from "../libs/headers";
 import { register } from "../services";
 
 export default function Register() {
@@ -30,9 +31,16 @@ export default function Register() {
         return "error";
       }
 
-      const res = await register(registerData);
+      await register(registerData);
 
-      location.replace("/");
+      mutate([
+        `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
+        {
+          headers: getHeaders(),
+        },
+      ]);
+
+      navigate("/");
     } catch (error) {
       alert("terjadi kesalahan ketika mendaftar");
     }

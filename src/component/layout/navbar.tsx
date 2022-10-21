@@ -2,15 +2,13 @@ import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
-import { AUTH_KEY } from "../../libs/local-storage";
-import { AuthContext } from "../../context";
 import { fetcher, showCartState, useSWR } from "../../libs";
-import { headers } from "../../libs/headers";
 import { STORAGE_KEY } from "../../libs/local-storage";
 import { logout } from "../../services";
 import { CategoryType } from "../../types";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
 import { useSWRConfig } from "swr";
+import { getHeaders } from "../../libs/headers";
 
 export default function Navbar() {
   // const auth = useContext(AuthContext);
@@ -38,7 +36,7 @@ export default function Navbar() {
     [
       `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
       {
-        headers: { Authorization: `Bearer ${localStorage.getItem(AUTH_KEY)}` },
+        headers: getHeaders(),
       },
     ],
     fetcher
