@@ -1,5 +1,8 @@
 import { FaTrashAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
+import { uidState } from "../../../libs";
 import { STORAGE_KEY } from "../../../libs/local-storage";
 import { deleteCart } from "../../../services";
 
@@ -20,15 +23,21 @@ export const CartProductCard = ({
   size,
   quantity,
 }: CartProductCardProps) => {
+  const uid = useRecoilValue(uidState);
+  const navigate = useNavigate();
   const { mutate } = useSWRConfig();
 
   const handleDelete = async () => {
-    await deleteCart(cartId);
-    mutate(
-      `${
-        import.meta.env.VITE_BACKEND_API_URL
-      }/carts?$lookup=*&cartStorageId=${localStorage.getItem(STORAGE_KEY)}`
-    );
+    try {
+      await deleteCart(cartId);
+      mutate(
+        `${
+          import.meta.env.VITE_BACKEND_API_URL
+        }/carts?$lookup=*&userId=${uid}&isCheckout=0`
+      );
+    } catch (error) {
+      navigate("/register");
+    }
   };
 
   return (

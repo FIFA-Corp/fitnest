@@ -1,11 +1,8 @@
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { AUTH_KEY } from "../../libs/local-storage";
-import { AuthContext } from "../../context";
-import { fetcher, showCartState, useSWR } from "../../libs";
-import { headers } from "../../libs/headers";
+import { fetcher, showCartState, uidState, useSWR } from "../../libs";
 import { STORAGE_KEY } from "../../libs/local-storage";
 import { logout } from "../../services";
 import { CategoryType } from "../../types";
@@ -13,7 +10,8 @@ import fitnestLogo from "../ui/images/fitnestLogo.png";
 import { useSWRConfig } from "swr";
 
 export default function Navbar() {
-  // const auth = useContext(AuthContext);
+  const uid = useRecoilValue(uidState);
+
   const { mutate } = useSWRConfig();
   const setShowCart = useSetRecoilState(showCartState);
   const navigate = useNavigate();
@@ -28,24 +26,11 @@ export default function Navbar() {
   const { data: carts, error: cartError } = useSWR(
     `${
       import.meta.env.VITE_BACKEND_API_URL
-    }/carts?$lookup=*&cartStorageId=${localStorage.getItem(STORAGE_KEY)}`,
+    }/carts?$lookup=*&userId=${uid}&isCheckout=0`,
     fetcher
   );
 
-  // navbar
-  // const { user, error } = await kontenbase.auth.user()
-  const { data: user, error: userError } = useSWR(
-    [
-      `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
-      {
-        headers: { Authorization: `Bearer ${localStorage.getItem(AUTH_KEY)}` },
-      },
-    ],
-    fetcher
-  );
-
-  const isAuthLoading = !user && !userError;
-  const isAuthenticated = Boolean(user?.email);
+  const isAuthenticated = Boolean(uid);
 
   const handleLogout = async () => {
     await logout();
@@ -55,10 +40,6 @@ export default function Navbar() {
     ]);
     navigate("/login");
   };
-
-  // if (error || cartError || userError) {
-  //   throw new Error(error);
-  // }
 
   return (
     <nav className="sticky top-0 z-10 flex w-full flex-wrap items-center justify-between bg-custom-blue-primary py-2 px-4">
@@ -128,14 +109,10 @@ export default function Navbar() {
           )}
         </div>
 
-        {isAuthLoading ? (
-          <span>?</span>
-        ) : (
-          <AuthButtons
-            isAuthenticated={isAuthenticated}
-            handleLogout={handleLogout}
-          />
-        )}
+        <AuthButtons
+          isAuthenticated={isAuthenticated}
+          handleLogout={handleLogout}
+        />
       </div>
     </nav>
   );

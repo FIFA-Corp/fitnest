@@ -1,14 +1,15 @@
-import { useParams } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { fetcher, showCartState, useSWR } from "../../libs";
+import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { fetcher, showCartState, uidState, useSWR } from "../../libs";
 import AddToCartButton from "../../component/button-add-to-cart";
 import { useState } from "react";
 import type { ProductType } from "../../types";
 import { addToCart } from "../../services";
 import { useSWRConfig } from "swr";
-import { STORAGE_KEY } from "../../libs/local-storage";
 
 export const ProductIdRoute = () => {
+  const uid = useRecoilValue(uidState);
+  const navigate = useNavigate();
   const { productId } = useParams();
   const setShowCart = useSetRecoilState(showCartState);
   const { mutate } = useSWRConfig();
@@ -26,17 +27,25 @@ export const ProductIdRoute = () => {
     product;
 
   const handleAddToCart = async () => {
-    const response = await addToCart(
-      productId!,
-      sizeQuantity[sizeIndexChoose]._id,
-      1
-    );
-    setShowCart(true);
-    mutate(
-      `${
-        import.meta.env.VITE_BACKEND_API_URL
-      }/carts?$lookup=*&cartStorageId=${localStorage.getItem(STORAGE_KEY)}`
-    );
+    try {
+      if (!uid) {
+        navigate(`/register?productId=${productId}`);
+      }
+      const response = await addToCart(
+        productId!,
+        sizeQuantity[sizeIndexChoose]._id,
+        1,
+        uid
+      );
+      setShowCart(true);
+      mutate(
+        `${
+          import.meta.env.VITE_BACKEND_API_URL
+        }/carts?$lookup=*&userId=${uid}&isCheckout=0`
+      );
+    } catch (error) {
+      navigate(`/register?productId=${productId}`);
+    }
   };
 
   return (

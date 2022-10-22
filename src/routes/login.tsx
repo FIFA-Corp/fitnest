@@ -1,12 +1,16 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useSWRConfig } from "swr";
+import { getHeaders } from "../libs/headers";
 
-import { AUTH_KEY } from "../libs/local-storage";
 import { login } from "../services/auth/login";
 import { LoginType } from "../types";
 
 export default function Login() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const productId = searchParams.get("productId");
+
   const navigate = useNavigate();
   const { mutate } = useSWRConfig();
   const [loginData, setLoginData] = useState<LoginType>({
@@ -17,19 +21,20 @@ export default function Login() {
   const onSubmitHandle = async (event: any) => {
     try {
       event.preventDefault();
-      const token = await login(loginData);
+      await login(loginData);
 
       mutate([
         `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem(AUTH_KEY)}`,
-          },
+          headers: getHeaders(),
         },
       ]);
 
-      navigate("/");
-      // location.replace("/");
+      if (productId) {
+        navigate(`/products/${productId}`);
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       alert("Cek kembali email dan password anda");
     }
@@ -54,12 +59,21 @@ export default function Login() {
           <h1 className="text-3xl font-bold text-custom-black-primary">
             Masuk
           </h1>
-          <Link
-            to="/register"
-            className="text-xl font-semibold text-custom-blue-primary"
-          >
-            Daftar
-          </Link>
+          {productId ? (
+            <Link
+              to={`/register?productId=${productId}`}
+              className="text-xl font-semibold text-custom-blue-primary"
+            >
+              Daftar
+            </Link>
+          ) : (
+            <Link
+              to="/register"
+              className="text-xl font-semibold text-custom-blue-primary"
+            >
+              Daftar
+            </Link>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="email" className="text-sm">
