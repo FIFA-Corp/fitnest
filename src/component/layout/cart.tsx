@@ -9,7 +9,9 @@ export default function Cart() {
   const uid = useRecoilValue(uidState);
 
   const { data: carts, error } = useSWR(
-    `${import.meta.env.VITE_BACKEND_API_URL}/carts?$lookup=*&&userId=${uid}`,
+    `${
+      import.meta.env.VITE_BACKEND_API_URL
+    }/carts?$lookup=*&userId=${uid}&isCheckout=0`,
     fetcher
   );
 

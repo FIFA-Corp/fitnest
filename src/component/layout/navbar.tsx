@@ -41,10 +41,6 @@ export default function Navbar() {
     navigate("/login");
   };
 
-  // if (error || cartError || userError) {
-  //   throw new Error(error);
-  // }
-
   return (
     <nav className="sticky top-0 z-10 flex w-full flex-wrap items-center justify-between bg-custom-blue-primary py-2 px-4">
       <Link to="/" className="">

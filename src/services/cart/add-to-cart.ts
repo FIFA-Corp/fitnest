@@ -1,27 +1,17 @@
 import axios from "axios";
-import {
-  checkLocalStorageAvailable,
-  STORAGE_KEY,
-} from "../../libs/local-storage";
+import { getHeaders } from "../../libs/headers";
 
 export const addToCart = async (
   productId: string,
   sizeQuantityId: string,
-  quantity: number
+  quantity: number,
+  uid: string
 ) => {
   try {
-    if (!checkLocalStorageAvailable()) {
-      await addLocalStorage();
-    }
-
-    const cartStorageId = localStorage.getItem(STORAGE_KEY);
-
     const cart = await axios.get(
       `${
         import.meta.env.VITE_BACKEND_API_URL
-      }/carts?$lookup=*&cartStorageId=${localStorage.getItem(
-        STORAGE_KEY
-      )}&productId=${productId}&sizeQuantityId=${sizeQuantityId}`
+      }/carts?$lookup=*&productId=${productId}&sizeQuantityId=${sizeQuantityId}&userId=${uid}`
     );
 
     if (cart.data.length > 0) {
@@ -30,8 +20,14 @@ export const addToCart = async (
         `${import.meta.env.VITE_BACKEND_API_URL}/carts/${cartId}`,
         {
           quantity: cart.data[0].quantity + quantity,
+        },
+        {
+          headers: getHeaders(),
         }
       );
+      if (response.status >= 300) {
+        throw new Error("anauthorizerd");
+      }
     } else {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_API_URL}/carts`,
@@ -40,16 +36,17 @@ export const addToCart = async (
           productId: [productId],
           sizeQuantityId: [sizeQuantityId],
           quantity,
-          cartStorageId: cartStorageId,
+        },
+        {
+          headers: getHeaders(),
         }
       );
+      if (response.status >= 300) {
+        throw new Error("anauthorizerd");
+      }
     }
   } catch (error) {
-    console.error(error);
+    console.log(error);
+    throw error;
   }
-};
-
-const addLocalStorage = async () => {
-  const cartStorageId = +new Date();
-  localStorage.setItem(STORAGE_KEY, cartStorageId.toString());
 };
