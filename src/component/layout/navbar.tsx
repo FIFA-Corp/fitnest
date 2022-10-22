@@ -26,7 +26,7 @@ export default function Navbar() {
   const { data: carts, error: cartError } = useSWR(
     `${
       import.meta.env.VITE_BACKEND_API_URL
-    }/carts?$lookup=*&cartStorageId=${localStorage.getItem(STORAGE_KEY)}`,
+    }/carts?$lookup=*&userId=${uid}&isCheckout=0`,
     fetcher
   );
 
