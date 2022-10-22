@@ -1,4 +1,5 @@
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
+import loadingLottie from "./../../src/component/ui/images/loading-animation-blue.json";
 
 export const LoadingUi = () => {
   return (
@@ -6,7 +7,7 @@ export const LoadingUi = () => {
       <Player
         autoplay
         loop
-        src="../../src/component/ui/images/loading-animation-blue.json"
+        src={loadingLottie}
         style={{ height: "300px", width: "300px" }}
       >
         <Controls
