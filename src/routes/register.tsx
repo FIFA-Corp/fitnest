@@ -1,10 +1,14 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useSWRConfig } from "swr";
 import { getHeaders } from "../libs/headers";
 import { register } from "../services";
 
 export default function Register() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const productId = searchParams.get("productId");
+
   const navigate = useNavigate();
   const { mutate } = useSWRConfig();
 
@@ -40,7 +44,11 @@ export default function Register() {
         },
       ]);
 
-      navigate("/");
+      if (productId) {
+        navigate(`/products/${productId}`);
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       alert("terjadi kesalahan ketika mendaftar");
     }
@@ -56,12 +64,21 @@ export default function Register() {
           <h1 className="text-3xl font-bold text-custom-black-primary">
             Daftar
           </h1>
-          <Link
-            to="/login"
-            className="text-xl font-semibold text-custom-blue-primary"
-          >
-            Masuk
-          </Link>
+          {productId ? (
+            <Link
+              to={`/login?productId=${productId}`}
+              className="text-xl font-semibold text-custom-blue-primary"
+            >
+              Masuk
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="text-xl font-semibold text-custom-blue-primary"
+            >
+              Masuk
+            </Link>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="firstName" className="text-sm">

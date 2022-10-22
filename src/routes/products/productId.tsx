@@ -6,7 +6,6 @@ import { useState } from "react";
 import type { ProductType } from "../../types";
 import { addToCart } from "../../services";
 import { useSWRConfig } from "swr";
-import { STORAGE_KEY } from "../../libs/local-storage";
 
 export const ProductIdRoute = () => {
   const uid = useRecoilValue(uidState);
@@ -30,7 +29,7 @@ export const ProductIdRoute = () => {
   const handleAddToCart = async () => {
     try {
       if (!uid) {
-        navigate("/register");
+        navigate(`/register?productId=${productId}`);
       }
       const response = await addToCart(
         productId!,
@@ -45,7 +44,7 @@ export const ProductIdRoute = () => {
         }/carts?$lookup=*&userId=${uid}&isCheckout=0`
       );
     } catch (error) {
-      navigate("/register");
+      navigate(`/register?productId=${productId}`);
     }
   };
 

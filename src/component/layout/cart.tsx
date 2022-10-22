@@ -71,9 +71,9 @@ export default function Cart() {
                   key={index}
                   cartId={_id}
                   imageUrl={product[0].image[0]?.url}
-                  name={product[0].name}
-                  price={product[0].price}
-                  size={sizeQuantity[0].size}
+                  name={product[0]?.name}
+                  price={product[0]?.price}
+                  size={sizeQuantity[0]?.size}
                   quantity={quantity}
                 />
               );
