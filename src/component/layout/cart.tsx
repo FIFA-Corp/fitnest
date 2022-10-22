@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { fetcher, showCartState, uidState, useSWR } from "../../libs";
 import { CartType } from "../../types";
 import { useNavigate } from "react-router-dom";
+import { LoadingUi } from "../loading";
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export default function Cart() {
   }
 
   if (!carts) {
-    return <div>Loading</div>;
+    return <LoadingUi />;
   }
 
   const totalPrice =
