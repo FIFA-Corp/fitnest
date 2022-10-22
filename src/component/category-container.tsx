@@ -31,7 +31,13 @@ export default function CategoryContainer() {
       <div className="flex gap-3">
         {categories.map(({ _id, name, image }: CategoryType) => {
           return (
-            <BrandCategoryCard key={_id} name={name} imageUrl={image[0]?.url} />
+            <BrandCategoryCard
+              key={_id}
+              name={name}
+              imageUrl={image[0]?.url}
+              isBrand={false}
+              id={_id}
+            />
           );
         })}
       </div>
