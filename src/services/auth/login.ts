@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useSWRConfig } from "swr";
 
 import { AUTH_KEY } from "../../libs/local-storage";
 import { LoginType } from "../../types";
