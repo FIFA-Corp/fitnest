@@ -8,6 +8,7 @@ import { Home, ProductIdRoute, Products } from "./routes";
 import { FourOhFour } from "./routes/404";
 import Login from "./routes/login";
 import Register from "./routes/register";
+import Checkout from "./routes/checkout";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "products/:productId",
         element: <ProductIdRoute />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
       },
     ],
   },
