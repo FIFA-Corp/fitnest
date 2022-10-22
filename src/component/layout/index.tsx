@@ -35,7 +35,11 @@ export default function Layout({ children }: LayoutType) {
   }
 
   if (!user) {
-    return <LoadingUi />;
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <LoadingUi />
+      </div>
+    );
   }
 
   return (
