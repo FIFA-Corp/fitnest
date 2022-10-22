@@ -31,7 +31,13 @@ export default function BrandContainer() {
       <div className="flex gap-3">
         {categories.map(({ _id, name, image }: BrandType) => {
           return (
-            <BrandCategoryCard key={_id} name={name} imageUrl={image[0]?.url} />
+            <BrandCategoryCard
+              key={_id}
+              name={name}
+              imageUrl={image[0]?.url}
+              isBrand={true}
+              id={_id}
+            />
           );
         })}
       </div>

@@ -113,12 +113,11 @@ export default function Checkout() {
                   index: number
                 ) => {
                   return (
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-3" key={index}>
                       <h5 className="text-lg font-semibold">
                         Pesanan {index + 1}
                       </h5>
                       <CheckoutProductCard
-                        key={index}
                         cartId={_id}
                         imageUrl={product[0]?.image[0]?.url}
                         name={product[0]?.name}
