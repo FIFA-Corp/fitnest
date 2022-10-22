@@ -24,6 +24,7 @@ export default function Cart() {
 
   const handleCheckout = () => {
     setShowCart(false);
+    document.body.classList.remove("overflow-y-hidden");
     if (uid) {
       navigate("/checkout");
     } else {

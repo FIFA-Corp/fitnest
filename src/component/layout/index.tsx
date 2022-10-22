@@ -2,6 +2,7 @@ import { ReactNode, useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { fetcher, uidState, useSWR } from "../../libs";
 import { getHeaders } from "../../libs/headers";
+import { LoadingUi } from "../loading";
 import Cart from "./cart";
 import Footer from "./footer";
 import Navbar from "./navbar";
@@ -34,7 +35,11 @@ export default function Layout({ children }: LayoutType) {
   }
 
   if (!user) {
-    return <div>Loading</div>;
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <LoadingUi />
+      </div>
+    );
   }
 
   return (
