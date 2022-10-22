@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaHome } from "react-icons/fa";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useSWRConfig } from "swr";
 import { getHeaders } from "../libs/headers";
@@ -59,6 +60,13 @@ export default function Login() {
           <h1 className="text-3xl font-bold text-custom-black-primary">
             Masuk
           </h1>
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-xl font-semibold text-custom-blue-primary"
+          >
+            <FaHome />
+            Ke Beranda
+          </Link>
           {productId ? (
             <Link
               to={`/register?productId=${productId}`}
