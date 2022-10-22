@@ -24,16 +24,6 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/login",
-        element: <Login />,
-        errorElement: <FourOhFour />,
-      },
-      {
-        path: "/register",
-        element: <Register />,
-        errorElement: <FourOhFour />,
-      },
-      {
         path: "products",
         element: <Products />,
       },
@@ -42,6 +32,16 @@ const router = createBrowserRouter([
         element: <ProductIdRoute />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+    errorElement: <FourOhFour />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+    errorElement: <FourOhFour />,
   },
 ]);
 

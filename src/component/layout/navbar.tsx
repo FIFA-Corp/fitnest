@@ -1,17 +1,17 @@
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { fetcher, showCartState, useSWR } from "../../libs";
+import { fetcher, showCartState, uidState, useSWR } from "../../libs";
 import { STORAGE_KEY } from "../../libs/local-storage";
 import { logout } from "../../services";
 import { CategoryType } from "../../types";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
 import { useSWRConfig } from "swr";
-import { getHeaders } from "../../libs/headers";
 
 export default function Navbar() {
-  // const auth = useContext(AuthContext);
+  const uid = useRecoilValue(uidState);
+
   const { mutate } = useSWRConfig();
   const setShowCart = useSetRecoilState(showCartState);
   const navigate = useNavigate();
@@ -30,20 +30,7 @@ export default function Navbar() {
     fetcher
   );
 
-  // navbar
-  // const { user, error } = await kontenbase.auth.user()
-  const { data: user, error: userError } = useSWR(
-    [
-      `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
-      {
-        headers: getHeaders(),
-      },
-    ],
-    fetcher
-  );
-
-  const isAuthLoading = !user && !userError;
-  const isAuthenticated = Boolean(user?.email);
+  const isAuthenticated = Boolean(uid);
 
   const handleLogout = async () => {
     await logout();
@@ -126,14 +113,10 @@ export default function Navbar() {
           )}
         </div>
 
-        {isAuthLoading ? (
-          <span>?</span>
-        ) : (
-          <AuthButtons
-            isAuthenticated={isAuthenticated}
-            handleLogout={handleLogout}
-          />
-        )}
+        <AuthButtons
+          isAuthenticated={isAuthenticated}
+          handleLogout={handleLogout}
+        />
       </div>
     </nav>
   );

@@ -1,17 +1,15 @@
 import { FaAngleLeft } from "react-icons/fa";
 import { CartProductCard } from "../ui/card";
-import { useRecoilState } from "recoil";
-import { fetcher, showCartState, useSWR } from "../../libs";
-import { STORAGE_KEY } from "../../libs/local-storage";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { fetcher, showCartState, uidState, useSWR } from "../../libs";
 import { CartType } from "../../types";
 
 export default function Cart() {
   const [isCartShow, setShowCart] = useRecoilState(showCartState);
+  const uid = useRecoilValue(uidState);
 
   const { data: carts, error } = useSWR(
-    `${
-      import.meta.env.VITE_BACKEND_API_URL
-    }/carts?$lookup=*&cartStorageId=${localStorage.getItem(STORAGE_KEY)}`,
+    `${import.meta.env.VITE_BACKEND_API_URL}/carts?$lookup=*&&userId=${uid}`,
     fetcher
   );
 
@@ -28,10 +26,11 @@ export default function Cart() {
     return <div>Loading</div>;
   }
 
-  const totalPrice = carts.reduce(
-    (a: number, b: CartType) => a + b.quantity * b.productId[0].price,
-    0
-  );
+  const totalPrice =
+    carts.reduce(
+      (a: number, b: CartType) => a + b.quantity * b.productId[0].price,
+      0
+    ) ?? 0;
 
   return (
     <div
