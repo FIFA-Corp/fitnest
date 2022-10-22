@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { fetcher, useSWR } from "../libs";
 import { ProductType } from "../types";
+import { LoadingUi } from "./loading";
 import { ProductCard } from "./ui/card";
 
 export default function ProductContainer() {
@@ -15,7 +16,7 @@ export default function ProductContainer() {
   }
 
   if (!products) {
-    return <div>Loading</div>;
+    return <LoadingUi />;
   }
 
   return (

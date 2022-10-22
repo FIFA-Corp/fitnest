@@ -7,6 +7,7 @@ import type { ProductType } from "../../types";
 import { addToCart } from "../../services";
 import { useSWRConfig } from "swr";
 import { FaHome, FaRegArrowAltCircleLeft } from "react-icons/fa";
+import { LoadingUi } from "../../component/loading";
 
 export const ProductIdRoute = () => {
   const uid = useRecoilValue(uidState);
@@ -22,7 +23,7 @@ export const ProductIdRoute = () => {
   const [sizeIndexChoose, setSizeIndexChoose] = useState<number>(0);
 
   if (error) return <div>Failed To Load Product: {productId}</div>;
-  if (!product) return <div>Loading Product...</div>;
+  if (!product) return <LoadingUi />;
 
   const { name, image, price, description, sizeQuantity }: ProductType =
     product;

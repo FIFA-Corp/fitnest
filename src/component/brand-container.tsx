@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { BrandType } from "../types/brand-type";
 import { fetcher, useSWR } from "./../libs";
+import { LoadingUi } from "./loading";
 import { BrandCategoryCard } from "./ui/card";
 
 export default function BrandContainer() {
@@ -15,7 +16,7 @@ export default function BrandContainer() {
   }
 
   if (!categories) {
-    return <div>Loading</div>;
+    return <LoadingUi />;
   }
 
   return (

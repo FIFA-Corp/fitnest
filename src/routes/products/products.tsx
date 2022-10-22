@@ -4,6 +4,7 @@ import { fetcher, useSWR } from "../../libs";
 import { ProductCard } from "../../component/ui/card";
 import { ProductType } from "../../types";
 import { FaHome } from "react-icons/fa";
+import { LoadingUi } from "../../component/loading";
 
 export const Products = () => {
   const [searchParams] = useSearchParams();
@@ -22,7 +23,7 @@ export const Products = () => {
   );
 
   if (error) return <div>Failed To Load Products</div>;
-  if (!products) return <div>Loading Product...</div>;
+  if (!products) return <LoadingUi />;
 
   return (
     <div className="w-full bg-slate-50">
