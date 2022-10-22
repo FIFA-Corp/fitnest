@@ -6,7 +6,7 @@ import { ProductType } from "../../types";
 import { FaHome } from "react-icons/fa";
 
 export const Products = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const search = searchParams.get("search");
   const category = searchParams.get("category");
