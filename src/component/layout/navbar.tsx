@@ -46,10 +46,14 @@ export default function Navbar() {
       event.preventDefault();
 
       const formData = new FormData(event.currentTarget);
-      const category = formData.get("category");
-      const search = formData.get("search");
+      const category = formData.get("category")?.toString();
+      const search = formData.get("search")?.toString();
 
-      navigate(`/products?search=${search}&category=${category}`);
+      const searchParams = new URLSearchParams();
+      searchParams.append("category", String(category));
+      searchParams.append("search", String(search));
+
+      navigate(`/products?${searchParams.toString()}`);
     } catch (error) {
       console.error(error);
     }
