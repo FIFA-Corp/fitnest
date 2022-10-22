@@ -3,10 +3,12 @@ import { CartProductCard } from "../ui/card";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { fetcher, showCartState, uidState, useSWR } from "../../libs";
 import { CartType } from "../../types";
+import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
-  const [isCartShow, setShowCart] = useRecoilState(showCartState);
+  const navigate = useNavigate();
   const uid = useRecoilValue(uidState);
+  const [isCartShow, setShowCart] = useRecoilState(showCartState);
 
   const { data: carts, error } = useSWR(
     `${
@@ -20,6 +22,15 @@ export default function Cart() {
     document.body.classList.remove("overflow-y-hidden");
   };
 
+  const handleCheckout = () => {
+    setShowCart(false);
+    if (uid) {
+      navigate("/checkout");
+    } else {
+      navigate("/");
+    }
+  };
+
   if (error) {
     throw error;
   }
@@ -30,7 +41,7 @@ export default function Cart() {
 
   const totalPrice =
     carts.reduce(
-      (a: number, b: CartType) => a + b.quantity * b.productId[0].price,
+      (a: number, b: CartType) => a + b?.quantity * b?.productId[0]?.price,
       0
     ) ?? 0;
 
@@ -70,7 +81,7 @@ export default function Cart() {
                 <CartProductCard
                   key={index}
                   cartId={_id}
-                  imageUrl={product[0].image[0]?.url}
+                  imageUrl={product[0]?.image[0]?.url}
                   name={product[0]?.name}
                   price={product[0]?.price}
                   size={sizeQuantity[0]?.size}
@@ -92,7 +103,10 @@ export default function Cart() {
             </p>
           </div>
           <div className="flex w-full items-center justify-center bg-custom-blue-primary p-2">
-            <button className="w-[175px] max-w-xs rounded-2xl bg-custom-yellow py-2 text-2xl font-semibold">
+            <button
+              onClick={handleCheckout}
+              className="w-[175px] max-w-xs rounded-2xl bg-custom-yellow py-2 text-2xl font-semibold"
+            >
               Beli
             </button>
           </div>

@@ -91,14 +91,14 @@ export default function Navbar() {
       </form>
 
       <div className="flex items-center justify-center gap-3">
-        <div className="text-white">
-          <FaShoppingCart
-            className="h-auto w-8 hover:cursor-pointer"
-            onClick={() => {
-              setShowCart(true);
-              document.body.classList.add("overflow-y-hidden");
-            }}
-          />
+        <div
+          className="cursor-pointer text-white"
+          onClick={() => {
+            setShowCart(true);
+            document.body.classList.add("overflow-y-hidden");
+          }}
+        >
+          <FaShoppingCart className="h-auto w-8 " />
 
           {carts?.length > 0 && (
             <div className="absolute bottom-2 ml-4 flex h-5 w-5 items-center justify-center rounded-full bg-custom-yellow">
