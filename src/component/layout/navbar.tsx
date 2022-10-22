@@ -42,15 +42,17 @@ export default function Navbar() {
   };
 
   const handleSubmitSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    try {
+      event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    const category = formData.get("category");
-    const search = formData.get("search");
+      const formData = new FormData(event.currentTarget);
+      const category = formData.get("category");
+      const search = formData.get("search");
 
-    console.log({ category, search });
-
-    // navigate("/products");
+      navigate(`/products?search=${search}&category=${category}`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
