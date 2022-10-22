@@ -3,9 +3,10 @@ import { fetcher, useSWR } from "../../libs";
 
 import { ProductCard } from "../../component/ui/card";
 import { ProductType } from "../../types";
+import { FaHome } from "react-icons/fa";
 
 export const Products = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const search = searchParams.get("search");
   const category = searchParams.get("category");
@@ -26,11 +27,13 @@ export const Products = () => {
   return (
     <div className="w-full bg-slate-50">
       <div className="flex items-center justify-between p-5">
-        <h2 className="text-sm font-normal text-custom-black-primary">
-          Semua Produk
-        </h2>
-        <Link to="/" className="text-sm font-normal text-custom-blue-secondary">
-          Kembali Ke Home
+        <h2 className="rounded-xl p-2 text-sm font-normal ">Semua Produk</h2>
+        <Link
+          to="/"
+          className="ouline flex items-center gap-2 rounded-xl p-2 text-custom-blue-primary  outline-1"
+        >
+          <FaHome />
+          Ke Beranda
         </Link>
       </div>
       <div className="grid grid-cols-6 justify-center gap-6 px-5">

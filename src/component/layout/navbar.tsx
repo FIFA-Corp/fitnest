@@ -41,13 +41,35 @@ export default function Navbar() {
     navigate("/login");
   };
 
+  const handleSubmitSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    try {
+      event.preventDefault();
+
+      const formData = new FormData(event.currentTarget);
+      const category = formData.get("category")?.toString();
+      const search = formData.get("search")?.toString();
+
+      const searchParams = new URLSearchParams();
+      searchParams.append("category", String(category));
+      searchParams.append("search", String(search));
+
+      navigate(`/products?${searchParams.toString()}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <nav className="sticky top-0 z-10 flex w-full flex-wrap items-center justify-between bg-custom-blue-primary py-2 px-4">
       <Link to="/" className="">
         <img src={fitnestLogo}></img>
       </Link>
 
-      <form className="flex items-center" action="/products">
+      <form
+        className="flex items-center"
+        action="/products"
+        onSubmit={handleSubmitSearch}
+      >
         <div className="input-group flex flex-wrap">
           <select
             name="category"
