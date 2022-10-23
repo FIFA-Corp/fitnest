@@ -36,14 +36,13 @@ Production:
 
 - [x] Products showcase
 - [x] Detail product
-- [ ] Show products by brand
-- [ ] Filter products by category
-- [ ] Search products
-- [ ] See cart page
-- [ ] Add to cart
-- [ ] Checkout cart
-- [ ] Review product
-- [ ] Authorization user
+- [x] Show products by brand
+- [x] Filter products by category
+- [x] Search products
+- [x] See cart page
+- [x] Add to cart
+- [x] Checkout cart
+- [x] Authorization user
 
 ## Team Members
 
@@ -67,12 +66,14 @@ Production:
 - React
   - Vite v3
     - React Router v6
+    - React Router DOM
 - Data Fetching
   - REST API: `swr` & `axios`
+- State Management
+  - Recoil
 - Misc
   - Prettier
   - ESLint
-  - React Router DOM
 
 ## Development
 
@@ -102,20 +103,28 @@ npm start
 
 ## Deployment
 
-This project is deployed on Netlify, you can check the website on the about section or [visit fifa-fitnest.netlify.app](https://fifa-fitnest.netlify.app).
+This project is deployed on Netlify, you can check the website in the about section or [visit fifa-fitnest.netlify.app](https://fifa-fitnest.netlify.app).
 
 ## REST API Endpoints
 
-| HTTP   | Endpoint              | Description      |
-| ------ | --------------------- | ---------------- |
-| GET    | `/brands?$lookup=*`   | Get all brands   |
-| POST   | `/brands/`            | Create brand     |
-| PATCH  | `/brands/:id`         | Patch brand      |
-| DELETE | `/brands/:id`         | Delete brand     |
-| GET    | `/products?$lookup=*` | Get all products |
-| POST   | `/products/`          | Create product   |
-| PATCH  | `/products/:id`       | Patch product    |
-| DELETE | `/products/:id`       | Delete product   |
+| HTTP   | Endpoint                  | Description          |
+| ------ | ------------------------- | -------------------- |
+| GET    | `/brands?$lookup=*`       | Get all brands       |
+| POST   | `/brands/`                | Create brand         |
+| PATCH  | `/brands/:id`             | Patch brand          |
+| DELETE | `/brands/:id`             | Delete brand         |
+| GET    | `/products?$lookup=*`     | Get all products     |
+| POST   | `/products/`              | Create product       |
+| PATCH  | `/products/:id`           | Patch product        |
+| DELETE | `/products/:id`           | Delete product       |
+| GET    | `/categories?$lookup=*`   | Get all categories   |
+| POST   | `/categories/`            | Create category      |
+| PATCH  | `/categories/:id`         | Patch category       |
+| DELETE | `/categories/:id`         | Delete category      |
+| GET    | `/sizeCategory?$lookup=*` | Get all sizeCategory |
+| POST   | `/sizeCategory/`          | Create sizeCategory  |
+| PATCH  | `/sizeCategory/:id`       | Patch sizeCategory   |
+| DELETE | `/sizeCategory/:id`       | Delete sizeCategory  |
 
 ## Data Model
 
@@ -215,20 +224,6 @@ Complete:
   "productId": "nike123",
   "size": "40",
   "quantity": 50,
-  "createdAt": "",
-  "updatedAt": ""
-}
-```
-
-### Review
-
-```json
-{
-  "_id": "abc123",
-  "productId": "nike123",
-  "userId": "user123",
-  "rating": 4,
-  "message": "Message about product",
   "createdAt": "",
   "updatedAt": ""
 }
