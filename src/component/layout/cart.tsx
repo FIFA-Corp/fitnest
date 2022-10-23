@@ -1,7 +1,8 @@
 import { FaAngleLeft } from "react-icons/fa";
-import { CartProductCard } from "../ui/card";
 import { useRecoilState, useRecoilValue } from "recoil";
+
 import { fetcher, showCartState, uidState, useSWR } from "../../libs";
+import { CartProductCard } from "../ui/card";
 import { CartType } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { LoadingUi } from "../loading";
@@ -13,9 +14,11 @@ export default function Cart() {
   const [isCartShow, setShowCart] = useRecoilState(showCartState);
 
   const { data: carts, error } = useSWR(
-    `${
-      import.meta.env.VITE_BACKEND_API_URL
-    }/carts?$lookup=*&userId=${uid}&isCheckout=0`,
+    uid
+      ? `${
+          import.meta.env.VITE_BACKEND_API_URL
+        }/carts?$lookup=*&userId=${uid}&isCheckout=0`
+      : `${import.meta.env.VITE_BACKEND_API_URL}/carts?$lookup=*&isCheckout=0`,
     fetcher
   );
 
@@ -34,19 +37,10 @@ export default function Cart() {
     }
   };
 
-  if (error) {
-    throw error;
-  }
-
-  if (!carts) {
-    return <LoadingUi />;
-  }
-
   const totalPrice =
-    carts.reduce(
-      (a: number, b: CartType) => a + b?.quantity * b?.productId[0]?.price,
-      0
-    ) ?? 0;
+    carts.reduce((a: number, b: CartType) => {
+      return a + b?.quantity * b?.productId[0]?.price;
+    }, 0) ?? 0;
 
   return (
     <div
@@ -70,30 +64,29 @@ export default function Cart() {
           <div></div>
         </div>
         <div className="mt-3 flex flex-1 flex-col gap-3 overflow-y-auto px-10">
-          {carts?.length > 0 ? (
-            carts.map(
-              (
-                {
-                  _id,
-                  quantity,
-                  sizeQuantityId: sizeQuantity,
-                  productId: product,
-                }: CartType,
-                index: number
-              ) => {
-                return (
-                  <CartProductCard
-                    key={index}
-                    cartId={_id}
-                    imageUrl={product[0]?.image[0]?.url}
-                    name={product[0]?.name}
-                    price={product[0]?.price}
-                    size={sizeQuantity[0]?.size}
-                    quantity={quantity}
-                  />
-                );
-              }
-            )
+          {error && <p>Gagal memuat produk di keranjang</p>}
+          {!carts && <p>Memuat produk di keranjang...</p>}
+          {carts?.length >= 0 ? (
+            carts.map((cart: CartType, index: number) => {
+              const {
+                _id,
+                quantity,
+                sizeQuantityId: sizeQuantity,
+                productId: product,
+              } = cart;
+
+              return (
+                <CartProductCard
+                  key={index}
+                  cartId={_id}
+                  imageUrl={product[0]?.image[0]?.url}
+                  name={product[0]?.name}
+                  price={product[0]?.price}
+                  size={sizeQuantity[0]?.size}
+                  quantity={quantity}
+                />
+              );
+            })
           ) : (
             <FourOfFOurComp title="Belum ada produk yang dimasukan kedalam keranjang" />
           )}
@@ -109,6 +102,7 @@ export default function Cart() {
               }).format(totalPrice)}
             </p>
           </div>
+
           <div className="flex w-full items-center justify-center bg-custom-blue-primary p-2">
             <button
               onClick={handleCheckout}
