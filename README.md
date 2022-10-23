@@ -26,7 +26,7 @@ Local:
 
 Production:
 
-- `https://api.kontenbase.com/query/api/v1/19877131-8b2f-4e7a-91fc-db45066dea23`
+- https://api.kontenbase.com/query/api/v1/19877131-8b2f-4e7a-91fc-db45066dea23
 
 ### Design
 
@@ -41,8 +41,9 @@ Production:
 - [x] Search products
 - [x] See cart page
 - [x] Add to cart
+- [x] Modify product quantity in cart
 - [x] Checkout cart
-- [x] Authorization user
+- [x] Authenticate and Authorize user
 
 ## Team Members
 
