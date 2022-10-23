@@ -5,6 +5,7 @@ import { fetcher, showCartState, uidState, useSWR } from "../../libs";
 import { CartType } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { LoadingUi } from "../loading";
+import { FourOfFOurComp } from "../404-comp";
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -69,28 +70,32 @@ export default function Cart() {
           <div></div>
         </div>
         <div className="mt-3 flex flex-1 flex-col gap-3 overflow-y-auto px-10">
-          {carts.map(
-            (
-              {
-                _id,
-                quantity,
-                sizeQuantityId: sizeQuantity,
-                productId: product,
-              }: CartType,
-              index: number
-            ) => {
-              return (
-                <CartProductCard
-                  key={index}
-                  cartId={_id}
-                  imageUrl={product[0]?.image[0]?.url}
-                  name={product[0]?.name}
-                  price={product[0]?.price}
-                  size={sizeQuantity[0]?.size}
-                  quantity={quantity}
-                />
-              );
-            }
+          {carts?.length > 1 ? (
+            carts.map(
+              (
+                {
+                  _id,
+                  quantity,
+                  sizeQuantityId: sizeQuantity,
+                  productId: product,
+                }: CartType,
+                index: number
+              ) => {
+                return (
+                  <CartProductCard
+                    key={index}
+                    cartId={_id}
+                    imageUrl={product[0]?.image[0]?.url}
+                    name={product[0]?.name}
+                    price={product[0]?.price}
+                    size={sizeQuantity[0]?.size}
+                    quantity={quantity}
+                  />
+                );
+              }
+            )
+          ) : (
+            <FourOfFOurComp title="Belum ada produk yang dimasukan kedalam keranjang" />
           )}
         </div>
         <div className="flex flex-col">
