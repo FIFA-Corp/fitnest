@@ -66,7 +66,6 @@ Production:
 - React
   - Vite v3
     - React Router v6
-    - React Router DOM
 - Data Fetching
   - REST API: `swr` & `axios`
 - State Management
