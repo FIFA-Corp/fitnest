@@ -25,9 +25,6 @@ export default function CategoryContainer() {
         <h2 className="text-xl font-normal text-custom-black-primary">
           Kategori Pilihan
         </h2>
-        <Link to="/" className="text-xl font-normal text-custom-blue-secondary">
-          Lihat Semua
-        </Link>
       </div>
       <div className="flex gap-3">
         {categories.map(({ _id, name, image }: CategoryType) => {
