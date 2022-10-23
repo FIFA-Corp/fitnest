@@ -1,13 +1,11 @@
-import { FaSearch, FaShoppingCart } from "react-icons/fa";
-import { HiClipboardDocumentList } from "react-icons/hi2";
+import { FaSearch, FaShoppingCart, FaClipboardList } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSWRConfig } from "swr";
 
 import { fetcher, showCartState, uidState, useSWR } from "../../libs";
 import { logout } from "../../services";
 import { CategoryType } from "../../types";
-import fitnestLogo from "../ui/images/fitnestLogo.png";
-import { useSWRConfig } from "swr";
 
 export default function Navbar() {
   const [uid, setUid] = useRecoilState(uidState);
@@ -63,7 +61,7 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-10 flex w-full flex-wrap items-center justify-between bg-custom-blue-primary py-2 px-4">
       <Link to="/" className="">
-        <img src={fitnestLogo}></img>
+        <img src="/logo/fitnestLogo.png" />
       </Link>
 
       <form
@@ -121,7 +119,7 @@ export default function Navbar() {
             document.body.classList.add("overflow-y-hidden");
           }}
         >
-          <FaShoppingCart className="h-auto w-8 " />
+          <FaShoppingCart />
 
           {carts?.length > 0 && (
             <div className="absolute bottom-2 ml-4 flex h-5 w-5 items-center justify-center rounded-full bg-custom-yellow">
@@ -131,8 +129,8 @@ export default function Navbar() {
             </div>
           )}
         </div>
-        <Link to="/transaksi" className="cursor-pointer text-white">
-          <HiClipboardDocumentList className="h-auto w-8 " />
+        <Link to="/transaksi" className="text-white">
+          <FaClipboardList />
         </Link>
         <AuthButtons
           isAuthenticated={isAuthenticated}
