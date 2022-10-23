@@ -55,8 +55,8 @@ export const CartProductCard = ({
           />
           <h2 className="w-full text-lg font-normal line-clamp-3">{name}</h2>
           <div className="mb-2 w-full">
-            <p>size: {size}</p>
-            <p>quantity: {quantity}</p>
+            <p>Ukuran: {size}</p>
+            <p>Kuantitas: {quantity}</p>
           </div>
         </div>
         <h3 className="mb-2 text-lg font-bold">
