@@ -31,11 +31,13 @@ export const CheckoutProductCard = ({
   const handleDelete = async () => {
     try {
       await deleteCart(cartId);
-      mutate(
-        `${
-          import.meta.env.VITE_BACKEND_API_URL
-        }/carts?$lookup=*&userId=${uid}&isCheckout=0`
-      );
+
+      const searchParams = new URLSearchParams();
+      searchParams.append("$lookup", "*");
+      searchParams.append("isCheckout", "0");
+      searchParams.append("userId", uid);
+
+      mutate(`${import.meta.env.VITE_BACKEND_API_URL}/carts?${searchParams}`);
     } catch (error) {
       navigate("/register");
     }

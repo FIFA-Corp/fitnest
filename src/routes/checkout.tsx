@@ -13,10 +13,13 @@ export default function Checkout() {
   const { mutate } = useSWRConfig();
   const uid = useRecoilValue(uidState);
 
+  const searchParams = new URLSearchParams();
+  searchParams.append("$lookup", "*");
+  searchParams.append("isCheckout", "0");
+  searchParams.append("userId", uid);
+
   const { data: carts, error } = useSWR(
-    `${
-      import.meta.env.VITE_BACKEND_API_URL
-    }/carts?$lookup=*&userId=${uid}&isCheckout=0`,
+    `${import.meta.env.VITE_BACKEND_API_URL}/carts?${searchParams}`,
     fetcher
   );
 
