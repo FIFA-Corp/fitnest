@@ -11,7 +11,7 @@ export const addToCart = async (
     const cart = await axios.get(
       `${
         import.meta.env.VITE_BACKEND_API_URL
-      }/carts?$lookup=*&productId=${productId}&sizeQuantityId=${sizeQuantityId}&userId=${uid}`
+      }/carts?$lookup=*&productId=${productId}&sizeQuantityId=${sizeQuantityId}&userId=${uid}&isCheckout=0`
     );
 
     if (cart.data.length > 0) {

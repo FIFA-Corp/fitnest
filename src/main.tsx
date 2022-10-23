@@ -9,6 +9,7 @@ import { FourOhFour } from "./routes/404";
 import Login from "./routes/login";
 import Register from "./routes/register";
 import Checkout from "./routes/checkout";
+import { Transaction } from "./routes/transaction";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: <Checkout />,
+      },
+      {
+        path: "/transaksi",
+        element: <Transaction />,
       },
     ],
   },

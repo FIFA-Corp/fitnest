@@ -12,6 +12,7 @@ interface CheckoutProductCardProps {
   price: number;
   size: string;
   quantity: number;
+  isCheckoutFinish: boolean;
 }
 
 export const CheckoutProductCard = ({
@@ -21,6 +22,7 @@ export const CheckoutProductCard = ({
   price,
   size,
   quantity,
+  isCheckoutFinish,
 }: CheckoutProductCardProps) => {
   const uid = useRecoilValue(uidState);
   const navigate = useNavigate();
@@ -48,10 +50,14 @@ export const CheckoutProductCard = ({
       />
       <div className="col-span-2 flex h-full flex-col justify-between">
         <div className="flex flex-col items-end gap-2">
-          <FaTrashAlt
-            className="cursor-pointer text-custom-black-primary/50"
-            onClick={handleDelete}
-          />
+          {!isCheckoutFinish ? (
+            <FaTrashAlt
+              className="cursor-pointer text-custom-black-primary/50"
+              onClick={handleDelete}
+            />
+          ) : (
+            <div className="h-5" />
+          )}
           <h2 className="w-full text-lg font-normal line-clamp-3">{name}</h2>
           <div className="mb-2 w-full">
             <p>Ukuran: {size}</p>

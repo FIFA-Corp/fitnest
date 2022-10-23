@@ -53,7 +53,7 @@ export default function Checkout() {
           import.meta.env.VITE_BACKEND_API_URL
         }/carts?$lookup=*&userId=${uid}&isCheckout=0`
       );
-      navigate("/");
+      navigate("/transaksi");
     } catch (error) {
       console.log(error);
       alert("terjadi kesalahan ketika melakukan Pembelian");
@@ -186,6 +186,7 @@ export default function Checkout() {
                         price={product[0]?.price}
                         size={sizeQuantity[0]?.size}
                         quantity={quantity}
+                        isCheckoutFinish={false}
                       />
                     </div>
                   );
