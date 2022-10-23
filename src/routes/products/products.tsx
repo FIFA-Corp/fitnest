@@ -31,7 +31,7 @@ export const Products = () => {
   }
 
   return (
-    <div className="w-full bg-slate-50">
+    <div className="w-full pb-10">
       <div className="flex items-center justify-between p-5">
         <h2 className="rounded-xl p-2 text-sm font-normal ">Semua Produk</h2>
         <Link
