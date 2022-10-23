@@ -70,7 +70,7 @@ export default function Cart() {
           <div></div>
         </div>
         <div className="mt-3 flex flex-1 flex-col gap-3 overflow-y-auto px-10">
-          {carts?.length > 1 ? (
+          {carts?.length > 0 ? (
             carts.map(
               (
                 {
