@@ -1,10 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { useSWRConfig } from "swr";
 import { LoadingUi } from "../component/loading";
 import { CheckoutProductCard } from "../component/ui/card";
 import { fetcher, uidState, useSWR } from "../libs";
+import { buy } from "../services/checkout/buy";
 import { CartType } from "../types";
 
 export default function Checkout() {
+  const navigate = useNavigate();
+  const { mutate } = useSWRConfig();
   const uid = useRecoilValue(uidState);
 
   const { data: carts, error } = useSWR(
@@ -13,6 +18,47 @@ export default function Checkout() {
     }/carts?$lookup=*&userId=${uid}&isCheckout=0`,
     fetcher
   );
+
+  const handleOnSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    try {
+      event.preventDefault();
+
+      if (carts.length < 1) {
+        throw new Error("Tidak Ada Product");
+      }
+
+      const cartsId = carts.map(({ _id }: CartType) => _id);
+
+      const target = event.target as typeof event.target & {
+        name: { value: string };
+        address: { value: string };
+        city: { value: string };
+        province: { value: string };
+        postalCode: { value: number };
+        phone: { value: number };
+      };
+
+      const checkoutData = {
+        name: target.name.value,
+        address: target.address.value,
+        city: target.city.value,
+        province: target.province.value,
+        postalCode: Number(target.postalCode.value),
+        phone: Number(target.phone.value),
+      };
+
+      await buy(checkoutData, cartsId);
+      mutate(
+        `${
+          import.meta.env.VITE_BACKEND_API_URL
+        }/carts?$lookup=*&userId=${uid}&isCheckout=0`
+      );
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      alert("terjadi kesalahan ketika melakukan Pembelian");
+    }
+  };
 
   if (error) {
     return <div>Error</div>;
@@ -41,7 +87,7 @@ export default function Checkout() {
     <div className="flex flex-col items-center p-9">
       <div className="flex w-full max-w-7xl flex-col gap-5">
         <h1 className="text-3xl font-semibold">Checkout</h1>
-        <div className="flex w-full flex-row gap-8">
+        <form onSubmit={handleOnSubmit} className="flex w-full flex-row gap-8">
           <div className="flex flex-[2] flex-col">
             <h2 className="mb-4 text-2xl font-semibold">Alamat Pengiriman</h2>
             <div className="m-0 flex border-collapse flex-row border-[1px] border-black/50 px-2 py-4">
@@ -49,6 +95,7 @@ export default function Checkout() {
                 Nama Penerima
               </label>
               <input
+                required
                 type="text"
                 name="name"
                 placeholder="Nama Penerima"
@@ -60,6 +107,7 @@ export default function Checkout() {
                 Alamat
               </label>
               <input
+                required
                 type="text"
                 name="address"
                 placeholder="Alamat"
@@ -71,6 +119,7 @@ export default function Checkout() {
                 Kota
               </label>
               <input
+                required
                 type="text"
                 name="city"
                 placeholder="Kota"
@@ -82,20 +131,22 @@ export default function Checkout() {
                 Provinsi
               </label>
               <input
+                required
                 type="text"
-                name="Provinsi"
+                name="province"
                 placeholder="Provinsi"
                 className="flex-1 outline-none"
               />
             </div>
             <div className="m-0  flex border-collapse flex-row border-[1px] border-black/50 px-2 py-4">
-              <label htmlFor="postalcode" className="flex-1">
+              <label htmlFor="postalCode" className="flex-1">
                 Kode Pos
               </label>
               <input
+                required
                 type="number"
-                name="name"
-                placeholder="postalcode"
+                name="postalCode"
+                placeholder="Kode Pos"
                 className="flex-1 outline-none"
               />
             </div>
@@ -104,6 +155,7 @@ export default function Checkout() {
                 Nomor HP
               </label>
               <input
+                required
                 type="number"
                 name="phone"
                 placeholder="Nomor HP"
@@ -173,11 +225,11 @@ export default function Checkout() {
                 }).format(totalPrice + ongkir)}
               </p>
               <button className="mt-1 w-full rounded-lg bg-custom-yellow py-3 text-center text-lg font-semibold">
-                Pilih Pembayaran
+                Lakukan Pembayaran
               </button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

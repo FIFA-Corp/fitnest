@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
 import { uidState } from "../../../libs";
-import { STORAGE_KEY } from "../../../libs/local-storage";
 import { deleteCart } from "../../../services";
 
 interface CheckoutProductCardProps {

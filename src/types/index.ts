@@ -6,3 +6,4 @@ export * from "./size-quantity-type";
 export * from "./cart-type";
 export * from "./login-type";
 export * from "./register-type";
+export * from "./form-checkout-type";
