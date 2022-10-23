@@ -9,7 +9,7 @@ import googlePlayLogo from "../ui/images/googlePlayLogo.png";
 
 export default function Footer() {
   return (
-    <footer className="">
+    <footer>
       <div className="flex flex-row bg-cyan-200 px-5 pt-5 pb-10">
         <div className="flex basis-1/3 flex-col">
           <div>
