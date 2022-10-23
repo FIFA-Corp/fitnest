@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { useSWRConfig } from "swr";
+import { FourOfFOurComp } from "../component/404-comp";
 import { LoadingUi } from "../component/loading";
 import { CheckoutProductCard } from "../component/ui/card";
 import { fetcher, uidState, useSWR } from "../libs";
@@ -69,6 +70,12 @@ export default function Checkout() {
       <div className="flex h-screen w-screen items-center justify-center">
         <LoadingUi />
       </div>
+    );
+  }
+
+  if (carts?.length < 1) {
+    return (
+      <FourOfFOurComp title="Belum ada produk yang dimasukan kedalam keranjang" />
     );
   }
 

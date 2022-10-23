@@ -1,4 +1,5 @@
 import { useRecoilValue } from "recoil";
+import { FourOfFOurComp } from "../component/404-comp";
 import { LoadingUi } from "../component/loading";
 import { CheckoutProductCard } from "../component/ui/card";
 import { TransactionCard } from "../component/ui/card/transaction-card";
@@ -25,6 +26,10 @@ export const Transaction = () => {
         <LoadingUi />
       </div>
     );
+  }
+
+  if (transactions?.length < 1) {
+    return <FourOfFOurComp title="Belum ada transaksi" />;
   }
 
   return (
