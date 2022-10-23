@@ -40,7 +40,6 @@ export const ProductIdRoute = () => {
         uid
       );
       setShowCart(true);
-      document.body.classList.add("overflow-y-hidden");
       mutate(
         `${
           import.meta.env.VITE_BACKEND_API_URL

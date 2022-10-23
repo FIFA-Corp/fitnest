@@ -116,7 +116,6 @@ export default function Navbar() {
           className="cursor-pointer text-white"
           onClick={() => {
             setShowCart(true);
-            document.body.classList.add("overflow-y-hidden");
           }}
         >
           <FaShoppingCart />

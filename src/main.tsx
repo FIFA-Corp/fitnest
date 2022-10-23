@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import { RecoilRoot } from "recoil";
+import { RecoilRoot, useRecoilState } from "recoil";
 import "./index.css";
 import Layout from "./component/layout";
 import { Home, ProductIdRoute, Products } from "./routes";
@@ -10,6 +10,7 @@ import Login from "./routes/login";
 import Register from "./routes/register";
 import Checkout from "./routes/checkout";
 import { Transaction } from "./routes/transaction";
+import { showCartState } from "./libs";
 
 const router = createBrowserRouter([
   {
@@ -55,10 +56,14 @@ const router = createBrowserRouter([
   },
 ]);
 
+export const App = () => {
+  return <RouterProvider router={router} />;
+};
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   // <React.StrictMode>
   <RecoilRoot>
-    <RouterProvider router={router} />
+    <App />
   </RecoilRoot>
   // </React.StrictMode>
 );
