@@ -1,16 +1,15 @@
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { fetcher, showCartState, uidState, useSWR } from "../../libs";
-import { STORAGE_KEY } from "../../libs/local-storage";
 import { logout } from "../../services";
 import { CategoryType } from "../../types";
 import fitnestLogo from "../ui/images/fitnestLogo.png";
 import { useSWRConfig } from "swr";
 
 export default function Navbar() {
-  const uid = useRecoilValue(uidState);
+  const [uid, setUid] = useRecoilState(uidState);
 
   const { mutate } = useSWRConfig();
   const setShowCart = useSetRecoilState(showCartState);
@@ -38,6 +37,7 @@ export default function Navbar() {
       `${import.meta.env.VITE_BACKEND_API_URL}/auth/user`,
       { headers: null },
     ]);
+    setUid("");
     navigate("/login");
   };
 
