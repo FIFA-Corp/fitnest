@@ -36,14 +36,13 @@ Production:
 
 - [x] Products showcase
 - [x] Detail product
-- [ ] Show products by brand
-- [ ] Filter products by category
-- [ ] Search products
-- [ ] See cart page
-- [ ] Add to cart
-- [ ] Checkout cart
-- [ ] Review product
-- [ ] Authorization user
+- [x] Show products by brand
+- [x] Filter products by category
+- [x] Search products
+- [x] See cart page
+- [x] Add to cart
+- [x] Checkout cart
+- [x] Authorization user
 
 ## Team Members
 
@@ -67,12 +66,14 @@ Production:
 - React
   - Vite v3
     - React Router v6
+    - React Router DOM
 - Data Fetching
   - REST API: `swr` & `axios`
+- State Management
+  - Recoil
 - Misc
   - Prettier
   - ESLint
-  - React Router DOM
 
 ## Development
 
@@ -102,20 +103,36 @@ npm start
 
 ## Deployment
 
-This project is deployed on Netlify, you can check the website on the about section or [visit fifa-fitnest.netlify.app](https://fifa-fitnest.netlify.app).
+This project is deployed on Netlify, you can check the website in the about section or [visit fifa-fitnest.netlify.app](https://fifa-fitnest.netlify.app).
 
 ## REST API Endpoints
 
-| HTTP   | Endpoint              | Description      |
-| ------ | --------------------- | ---------------- |
-| GET    | `/brands?$lookup=*`   | Get all brands   |
-| POST   | `/brands/`            | Create brand     |
-| PATCH  | `/brands/:id`         | Patch brand      |
-| DELETE | `/brands/:id`         | Delete brand     |
-| GET    | `/products?$lookup=*` | Get all products |
-| POST   | `/products/`          | Create product   |
-| PATCH  | `/products/:id`       | Patch product    |
-| DELETE | `/products/:id`       | Delete product   |
+| HTTP   | Endpoint                  | Description          |
+| ------ | ------------------------- | -------------------- |
+| GET    | `/brands?$lookup=*`       | Get all brands       |
+| POST   | `/brands/`                | Create brand         |
+| PATCH  | `/brands/:id`             | Patch brand          |
+| DELETE | `/brands/:id`             | Delete brand         |
+| GET    | `/products?$lookup=*`     | Get all products     |
+| POST   | `/products/`              | Create product       |
+| PATCH  | `/products/:id`           | Patch product        |
+| DELETE | `/products/:id`           | Delete product       |
+| GET    | `/categories?$lookup=*`   | Get all categories   |
+| POST   | `/categories/`            | Create category      |
+| PATCH  | `/categories/:id`         | Patch category       |
+| DELETE | `/categories/:id`         | Delete category      |
+| GET    | `/sizeCategory?$lookup=*` | Get all sizeCategory |
+| POST   | `/sizeCategory/`          | Create sizeCategory  |
+| PATCH  | `/sizeCategory/:id`       | Patch sizeCategory   |
+| DELETE | `/sizeCategory/:id`       | Delete sizeCategory  |
+| GET    | `/carts?$lookup=*`        | Get all carts        |
+| POST   | `/carts/`                 | Create cart          |
+| PATCH  | `/carts/:id`              | Patch cart           |
+| DELETE | `/carts/:id`              | Delete cart          |
+| GET    | `/checkout?$lookup=*`     | Get all checkout     |
+| POST   | `/checkout/`              | Create checkout      |
+| PATCH  | `/checkout/:id`           | Patch checkout       |
+| DELETE | `/checkout/:id`           | Delete checkout      |
 
 ## Data Model
 
@@ -136,47 +153,14 @@ This project is deployed on Netlify, you can check the website on the about sect
 
 ### Cart
 
-Simple:
-
 ```json
 {
   "_id": "abc123",
-  "products": ["abc123", "abc123"],
-  "isCheckout": false,
-  "userId": "user123",
-  "createdAt": "",
-  "updatedAt": ""
-}
-```
-
-Complete:
-
-```json
-{
-  "_id": "abc123",
-  "cartProducts": [
-    {
-      "_id": "cartproduct123",
-      "productId": "product123",
-      "cartId": "cart123",
-      "quantity": 3
-    }
-  ],
+  "productId": ["productID"],
   "userId": "user123",
   "isCheckout": false,
   "createdAt": "",
   "updatedAt": ""
-}
-```
-
-### CartProduct
-
-```json
-{
-  "_id": "cartproduct123",
-  "productId": "product123",
-  "cartId": "cart123",
-  "quantity": 3
 }
 ```
 
@@ -220,17 +204,20 @@ Complete:
 }
 ```
 
-### Review
+### Checkout
 
 ```json
 {
-  "_id": "abc123",
-  "productId": "nike123",
-  "userId": "user123",
-  "rating": 4,
-  "message": "Message about product",
-  "createdAt": "",
-  "updatedAt": ""
+  "_id": "6354f63fdadc42808a40f60d",
+  "address": "Jalan Raya",
+  "carts": ["6354f63fdadc42808a40f60d"],
+  "city": "Bandung",
+  "createdAt": "2022-10-23T08:08:14.012Z",
+  "name": "Agung",
+  "phone": 8573947183201,
+  "postalCode": 40291,
+  "province": "Jawa Barat",
+  "userId": "6353a32cdadc42808a40f59a"
 }
 ```
 
