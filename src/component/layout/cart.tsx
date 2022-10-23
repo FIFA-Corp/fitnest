@@ -13,12 +13,13 @@ export default function Cart() {
   const uid = useRecoilValue(uidState);
   const [isCartShow, setShowCart] = useRecoilState(showCartState);
 
+  const searchParams = new URLSearchParams();
+  searchParams.append("$lookup", "*");
+  searchParams.append("isCheckout", "0");
+  searchParams.append("userId", uid);
+
   const { data: carts, error: cartsError } = useSWR(
-    uid
-      ? `${
-          import.meta.env.VITE_BACKEND_API_URL
-        }/carts?$lookup=*&userId=${uid}&isCheckout=0`
-      : `${import.meta.env.VITE_BACKEND_API_URL}/carts?$lookup=*&isCheckout=0`,
+    `${import.meta.env.VITE_BACKEND_API_URL}/carts?${searchParams}`,
     fetcher
   );
 
