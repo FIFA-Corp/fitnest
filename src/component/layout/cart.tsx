@@ -13,7 +13,7 @@ export default function Cart() {
   const uid = useRecoilValue(uidState);
   const [isCartShow, setShowCart] = useRecoilState(showCartState);
 
-  const { data: carts, error } = useSWR(
+  const { data: carts, error: cartsError } = useSWR(
     uid
       ? `${
           import.meta.env.VITE_BACKEND_API_URL
@@ -37,11 +37,6 @@ export default function Cart() {
     }
   };
 
-  const totalPrice =
-    carts.reduce((a: number, b: CartType) => {
-      return a + b?.quantity * b?.productId[0]?.price;
-    }, 0) ?? 0;
-
   return (
     <div
       className={`fixed z-10 h-screen w-screen justify-end backdrop-blur-md ${
@@ -64,7 +59,7 @@ export default function Cart() {
           <div></div>
         </div>
         <div className="mt-3 flex flex-1 flex-col gap-3 overflow-y-auto px-10">
-          {error && <p>Gagal memuat produk di keranjang</p>}
+          {cartsError && <p>Gagal memuat produk di keranjang</p>}
           {!carts && <p>Memuat produk di keranjang...</p>}
           {carts?.length >= 0 ? (
             carts.map((cart: CartType, index: number) => {
@@ -95,11 +90,16 @@ export default function Cart() {
           <div className="flex flex-row justify-between py-4 px-12">
             <p className="font-semibold">Total Harga</p>
             <p className="font-bold">
-              {Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-                minimumFractionDigits: 0,
-              }).format(totalPrice)}
+              {carts?.length >= 0 &&
+                Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                  minimumFractionDigits: 0,
+                }).format(
+                  carts.reduce((a: number, b: CartType) => {
+                    return a + b?.quantity * b?.productId[0]?.price;
+                  }, 0)
+                )}
             </p>
           </div>
 
