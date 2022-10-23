@@ -1,4 +1,5 @@
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
+import { HiClipboardDocumentList } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
@@ -112,7 +113,7 @@ export default function Navbar() {
         </div>
       </form>
 
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex flex-row items-center justify-center gap-3">
         <div
           className="cursor-pointer text-white"
           onClick={() => {
@@ -130,7 +131,9 @@ export default function Navbar() {
             </div>
           )}
         </div>
-
+        <Link to="/transaksi" className="cursor-pointer text-white">
+          <HiClipboardDocumentList className="h-auto w-8 " />
+        </Link>
         <AuthButtons
           isAuthenticated={isAuthenticated}
           handleLogout={handleLogout}
