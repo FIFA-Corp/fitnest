@@ -54,10 +54,22 @@ export const CheckoutProductCard = ({
             onClick={handleDelete}
           />
           <h2 className="w-full text-lg font-normal line-clamp-3">{name}</h2>
+          <div className="mb-2 w-full">
+            <p>Ukuran: {size}</p>
+            <p>Kuantitas: {quantity}</p>
+            <p>
+              Harga satuan:{" "}
+              {Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+                minimumFractionDigits: 0,
+              }).format(price)}
+            </p>
+          </div>
         </div>
       </div>
-      <p className="text-right">Subtotal:</p>
-      <h3 className="col-span-2 text-right text-lg font-bold">
+      <h3 className="col-span-3 text-right text-lg font-bold">
+        <span className="font-normal">Subtotal:</span>{" "}
         {Intl.NumberFormat("id-ID", {
           style: "currency",
           currency: "IDR",

@@ -1,4 +1,5 @@
 import { ReactNode, useEffect } from "react";
+import { ScrollRestoration } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { fetcher, uidState, useSWR } from "../../libs";
 import { getHeaders } from "../../libs/headers";
@@ -44,6 +45,7 @@ export default function Layout({ children }: LayoutType) {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <ScrollRestoration />
       <Navbar />
       <Cart />
       <main className="flex-1">{children}</main>
