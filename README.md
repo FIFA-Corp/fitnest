@@ -13,10 +13,10 @@ E-commerce for fitness and sports equipment.
 
 Production:
 
-- https://fifa-fitnest.agnuramdan.com
-- https://fifa-fitnest.mohammadfarizan.com
-- https://fifa-fitnest.fikrialwan.com
-- https://fifa-fitnest.nurikhwan.com
+- https://fitnest.agnuramdan.com
+- https://fitnest.mohammadfarizan.com
+- https://fitnest.fikrialwan.com
+- https://fitnest.nurikhwan.com
 
 Local:
 
