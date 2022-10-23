@@ -1,4 +1,5 @@
 import { useRecoilValue } from "recoil";
+import { LoadingUi } from "../component/loading";
 import { CheckoutProductCard } from "../component/ui/card";
 import { fetcher, uidState, useSWR } from "../libs";
 import { CartType } from "../types";
@@ -18,8 +19,17 @@ export default function Checkout() {
   }
 
   if (!carts) {
-    return <div>Loading</div>;
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <LoadingUi />
+      </div>
+    );
   }
+
+  const ongkir = 100000;
+
+  const totalProducts =
+    carts.reduce((a: number, b: CartType) => a + b?.quantity, 0) ?? 0;
 
   const totalPrice =
     carts.reduce(
@@ -135,7 +145,7 @@ export default function Checkout() {
             <div className="border-collapse px-11 py-5">
               <h4 className="mb-2 text-2xl font-semibold">Ringkasan belanja</h4>
               <p className="text-lg font-semibold">
-                Total Harga({carts.length} produk)
+                Total Harga({totalProducts} produk)
               </p>
               <p className="text-lg font-bold">
                 {Intl.NumberFormat("id-ID", {
@@ -143,6 +153,14 @@ export default function Checkout() {
                   currency: "IDR",
                   minimumFractionDigits: 0,
                 }).format(totalPrice)}
+              </p>
+              <p className="text-lg font-semibold">Ongkos kirim</p>
+              <p className="text-lg font-bold">
+                {Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                  minimumFractionDigits: 0,
+                }).format(ongkir)}
               </p>
             </div>
             <div className="border-collapse border-[1px] border-t-black/50 px-11 py-5">
@@ -152,7 +170,7 @@ export default function Checkout() {
                   style: "currency",
                   currency: "IDR",
                   minimumFractionDigits: 0,
-                }).format(totalPrice)}
+                }).format(totalPrice + ongkir)}
               </p>
               <button className="mt-1 w-full rounded-lg bg-custom-yellow py-3 text-center text-lg font-semibold">
                 Pilih Pembayaran
