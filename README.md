@@ -125,6 +125,14 @@ This project is deployed on Netlify, you can check the website in the about sect
 | POST   | `/sizeCategory/`          | Create sizeCategory  |
 | PATCH  | `/sizeCategory/:id`       | Patch sizeCategory   |
 | DELETE | `/sizeCategory/:id`       | Delete sizeCategory  |
+| GET    | `/carts?$lookup=*`        | Get all carts        |
+| POST   | `/carts/`                 | Create cart          |
+| PATCH  | `/carts/:id`              | Patch cart           |
+| DELETE | `/carts/:id`              | Delete cart          |
+| GET    | `/checkout?$lookup=*`     | Get all checkout     |
+| POST   | `/checkout/`              | Create checkout      |
+| PATCH  | `/checkout/:id`           | Patch checkout       |
+| DELETE | `/checkout/:id`           | Delete checkout      |
 
 ## Data Model
 
@@ -145,47 +153,14 @@ This project is deployed on Netlify, you can check the website in the about sect
 
 ### Cart
 
-Simple:
-
 ```json
 {
   "_id": "abc123",
-  "products": ["abc123", "abc123"],
-  "isCheckout": false,
-  "userId": "user123",
-  "createdAt": "",
-  "updatedAt": ""
-}
-```
-
-Complete:
-
-```json
-{
-  "_id": "abc123",
-  "cartProducts": [
-    {
-      "_id": "cartproduct123",
-      "productId": "product123",
-      "cartId": "cart123",
-      "quantity": 3
-    }
-  ],
+  "productId": ["productID"],
   "userId": "user123",
   "isCheckout": false,
   "createdAt": "",
   "updatedAt": ""
-}
-```
-
-### CartProduct
-
-```json
-{
-  "_id": "cartproduct123",
-  "productId": "product123",
-  "cartId": "cart123",
-  "quantity": 3
 }
 ```
 
@@ -226,6 +201,23 @@ Complete:
   "quantity": 50,
   "createdAt": "",
   "updatedAt": ""
+}
+```
+
+### Checkout
+
+```json
+{
+  "_id": "6354f63fdadc42808a40f60d",
+  "address": "Jalan Raya",
+  "carts": ["6354f63fdadc42808a40f60d"],
+  "city": "Bandung",
+  "createdAt": "2022-10-23T08:08:14.012Z",
+  "name": "Agung",
+  "phone": 8573947183201,
+  "postalCode": 40291,
+  "province": "Jawa Barat",
+  "userId": "6353a32cdadc42808a40f59a"
 }
 ```
 
